@@ -1,0 +1,10 @@
+.home {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 6vw;
+  padding: 6vw;
+  .home__client, .home__product {
+    width: 100%;
+  }
+}
