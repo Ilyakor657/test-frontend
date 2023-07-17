@@ -1,10 +1,68 @@
 .home {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 6vw;
-  padding: 6vw;
-  .home__client, .home__product {
-    width: 100%;
+  width: 1080px;
+  margin: auto;
+  padding: 70px 0;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  .forms {
+    display: flex;
+    grid-gap: 100px;
+    .client, .product {
+      width: 100%;
+      .title-one-in-form {
+        display: inline-block;
+        font-weight: 500;
+        font-size: 22px;
+        line-height: 20px;
+        color: #333E52;
+        height: 30px;
+        margin-top: 22px;
+        &:nth-child(2) {
+          margin-top: 0 !important;
+        }
+      }
+    
+      .title-two-in-form {
+        display: inline-block;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 20px;
+        color: #333E52;
+        height: 30px;
+      }
+    }
+  }
+
+  .ant-btn-primary {
+    width: 50%;
+    height: 44px;
+    background: linear-gradient(93.45deg, #FA805D 1.96%, #F56C41 100%);
+    border: none;
+    box-shadow: 0px 2px 4px rgba(246, 109, 67, 0.16), 0px 4px 12px rgba(246, 109, 67, 0.16);
+    border-radius: 12px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 22px;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    margin-top: 40px;
+    &:hover {
+      background: #DF5747 !important;
+      box-shadow: 0px 4px 12px 0px rgba(246, 109, 67, 0.16), 0px 2px 4px 0px rgba(246, 109, 67, 0.16) !important;
+    }
+    &:active {
+      background: #D13F2E !important;
+      box-shadow: 0px 2px 4px rgba(246, 109, 67, 0.16), 0px 4px 12px rgba(246, 109, 67, 0.16) !important;
+    }
+    &:disabled {
+      background: #FFBBA3;
+      color: #FFFFFF;
+      box-shadow: 0px 2px 4px rgba(246, 109, 67, 0.16), 0px 4px 12px rgba(246, 109, 67, 0.16);
+      pointer-events: none;
+    }
   }
 }

@@ -14,5 +14,18 @@ body {
   height: auto !important;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  display: none;
+}
+
+.ant-btn {
+  transition: none !important
+}
+
 @import './blocks/home.scss';
-@import './blocks/home-switch.scss';
+@import './blocks/form.scss';
+@import './blocks/commom/home-switch.scss';
+@import './blocks/commom/form-individuals.scss';
+@import './blocks/commom/form-legal.scss';
+@import './blocks/commom/form-product.scss';
