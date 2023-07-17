@@ -4,6 +4,7 @@
     height: 44px;
     border-radius: 12px;
     background: #F2F7FF;
+    margin-bottom: 40px;
     &:hover {
       background: #F2F7FF !important;
     }
@@ -66,7 +67,7 @@
     }
   }
 
-  .home__client {
+  .client {
     .ant-switch-checked {
       .ant-switch-handle {
         &::before {
@@ -84,7 +85,7 @@
     }
   }
 
-  .home__product {
+  .product {
     .ant-switch-checked {
       .ant-switch-handle {
         &::before {
