@@ -1,0 +1,24 @@
+.date {
+  display: flex;
+  justify-content: space-between;
+  .ant-form-item {
+    &:nth-child(1), &:nth-child(3) {
+      flex-grow: 1;
+    }
+    
+    .ant-picker {
+      width: 100%;
+    }
+  }
+
+  .date-close {
+
+  }
+}
+
+.black-arrow {
+  width: 20px;
+  height: 20px;
+  margin: 38px 16px 0;
+  transform: rotate(180deg);
+}
