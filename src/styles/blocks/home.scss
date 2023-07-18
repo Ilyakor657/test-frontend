@@ -1,13 +1,18 @@
 .home {
-  width: 1080px;
-  margin: auto;
+  width: 100%;
   padding: 70px 0;
   justify-content: center;
   display: flex;
   flex-direction: column;
+  @include w767 {
+    padding: 20px 0;
+  }
   .forms {
     display: flex;
     grid-gap: 100px;
+    @include w767 {
+      display: block;
+    }
     .client, .product {
       width: 100%;
       .title-one-in-form {
@@ -30,6 +35,12 @@
         line-height: 20px;
         color: #333E52;
         height: 30px;
+      }
+    }
+
+    .product {
+      @include w767 {
+        margin-top: 70px;
       }
     }
   }
