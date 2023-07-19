@@ -62,6 +62,10 @@
         font-family: 'Commissioner' !important;
       }
     }
+
+    .ant-picker-disabled {
+      background: rgba(0, 0, 0, 0.01);
+    }
     
     .ant-picker-input > input {
       font-size: 16px !important;
@@ -69,6 +73,9 @@
         color: #9BAAC3 !important;
         font-size: 16px !important;
         font-family: 'Commissioner' !important;
+      }
+      &:disabled {
+        color: rgba(0, 0, 0, 0.5);
       }
     }
 

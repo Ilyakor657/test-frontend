@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Form, Input, DatePicker } from 'antd';
 import InputMask from 'react-input-mask';
+import { dateString } from '../../service/dateService';
 
-const FormIndividuals = () => {
+const FormIndividuals = (props) => {
   const [innError, setInnError] = useState(false)
   const [serialError, setSerialError] = useState(false)
   const [numberError, setNumberError] = useState(false)
@@ -17,10 +18,19 @@ const FormIndividuals = () => {
             {
               required: true,
               message: 'Укажите фамилию',
+            },
+            {
+              validator: (_, value) =>
+                !value.includes(" ")
+                  ? Promise.resolve()
+                  : Promise.reject(new Error("Поле не должно содержать пробелы"))
             }
           ]}
         >
-          <Input autoComplete="off" />
+          <Input 
+            autoComplete="off" 
+            onChange={e => props.setSurnameIndividuals(e.target.value)}
+          />
         </Form.Item>
 
         <Form.Item
@@ -30,10 +40,19 @@ const FormIndividuals = () => {
             {
               required: true,
               message: 'Укажите имя',
+            },
+            {
+              validator: (_, value) =>
+                !value.includes(" ")
+                  ? Promise.resolve()
+                  : Promise.reject(new Error("Поле не должно содержать пробелы"))
             }
           ]}
         >
-          <Input autoComplete="off" />
+          <Input 
+            autoComplete="off" 
+            onChange={e => props.setNameIndividuals(e.target.value)}
+          />
         </Form.Item>
 
         <Form.Item
@@ -43,10 +62,19 @@ const FormIndividuals = () => {
             {
               required: true,
               message: 'Укажите отчество',
+            },
+            {
+              validator: (_, value) =>
+                !value.includes(" ")
+                  ? Promise.resolve()
+                  : Promise.reject(new Error("Поле не должно содержать пробелы"))
             }
           ]}
         >
-          <Input autoComplete="off" />
+          <Input 
+            autoComplete="off" 
+            onChange={e => props.setPatronymicIndividuals(e.target.value)}
+          />
         </Form.Item>
       </div>
 
@@ -60,7 +88,11 @@ const FormIndividuals = () => {
           }
         ]}
       >
-        <DatePicker placeholder='Выберите дату' format={'DD.MM.YYYY'}/>
+        <DatePicker 
+          placeholder='Выберите дату' 
+          format={'DD.MM.YYYY'} 
+          onChange={date => props.setDateBirth(dateString(date))}
+        />
       </Form.Item>
 
       <Form.Item
@@ -88,6 +120,7 @@ const FormIndividuals = () => {
           maskChar={null}
           className={`ant-input${innError ? ' ant-input-status-error' : ''}`}
           placeholder='X X X X X X X X X X X X'
+          onChange={e => props.setInnIndividuals(e.target.value.replace(/ /g,''))}
         />
       </Form.Item>
 
@@ -119,6 +152,7 @@ const FormIndividuals = () => {
             maskChar={null}
             className={`ant-input${serialError ? ' ant-input-status-error' : ''}`}
             placeholder='XX XX'
+            onChange={e => props.setSerial(e.target.value.replace(/ /g,''))}
           />
         </Form.Item>
 
@@ -147,6 +181,7 @@ const FormIndividuals = () => {
             maskChar={null}
             className={`ant-input${numberError ? ' ant-input-status-error' : ''}`}
             placeholder='XXXXXX'
+            onChange={e => props.setNumber(e.target.value)}
           />
         </Form.Item>
 
@@ -160,7 +195,11 @@ const FormIndividuals = () => {
             }
           ]}
         >
-          <DatePicker placeholder='Выберите дату' format={'DD.MM.YYYY'}/>
+          <DatePicker 
+            placeholder='Выберите дату' 
+            format={'DD.MM.YYYY'} 
+            onChange={date => props.setDateIssue(dateString(date))}
+          />
         </Form.Item>
       </div>
     </>
