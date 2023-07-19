@@ -5,17 +5,17 @@ import InputMask from 'react-input-mask';
 import blackArrow from '../public/images/black-arrow.svg'
 import { dateString } from '../../service/dateService';
 
-const FormCredit = (props) => {
+const FormLoan = (props) => {
   const [amountError, setAmountError] = useState(false)
   const [periodError, setPeriodError] = useState(false)
 
   return (
     <>
       <div className='date'>
-        <div className='dateOpenCredit'>
+        <div className='dateOpenLoan'>
           <Form.Item
             label="Дата открытия"
-            name="dateOpenCredit"
+            name="dateOpenLoan"
             rules={[
               { 
                 required: true, 
@@ -36,13 +36,13 @@ const FormCredit = (props) => {
                 (current.get('date') === 4 && current.get('month') === 10) ||
                 current < dayjs().startOf('day')
               }
-              onChange={date => props.setDateOpenCredit(dateString(date))}
+              onChange={date => props.setDateOpenLoan(dateString(date))}
             />
           </Form.Item>
   
           <Form.Item
             label="Срок (в месяцах)"
-            name="periodCredit"
+            name="periodLoan"
             rules={[
               {
                 validator: (_, value) => {
@@ -63,7 +63,7 @@ const FormCredit = (props) => {
               type="number"
               maskChar={null}
               className={`ant-input${periodError ? ' ant-input-status-error' : ''}`}
-              onChange={e => props.setPeriodCredit(e.target.value.replace(/ /g,''))}
+              onChange={e => props.setPeriodLoan(e.target.value.replace(/ /g,''))}
             />
           </Form.Item>
         </div>
@@ -72,21 +72,21 @@ const FormCredit = (props) => {
 
         <Form.Item
           label="Дата закрытия"
-          name="dateCloseCredit"
+          name="dateCloseLoan"
         >
           <DatePicker 
             placeholder='' 
             format={'DD.MM.YYYY'}
             suffixIcon={false}
             disabled={true}
-            onChange={date => props.setDateCloseCredit(date)}
+            onChange={date => props.setDateCloseLoan(date)}
           />
         </Form.Item>
       </div>
 
       <Form.Item
         label="Сумма кредита"
-        name="amountCredit"
+        name="amountLoan"
         rules={[
           {
             validator: (_, value) => {
@@ -108,11 +108,11 @@ const FormCredit = (props) => {
           mask='999 999 999'
           maskChar={null}
           className={`ant-input${amountError ? ' ant-input-status-error' : ''}`}
-          onChange={e => props.setAmountCredit(e.target.value.replace(/ /g,''))}
+          onChange={e => props.setAmountLoan(e.target.value.replace(/ /g,''))}
         />
       </Form.Item>
     </>
   );
 };
 
-export default FormCredit;
+export default FormLoan;

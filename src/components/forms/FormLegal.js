@@ -28,6 +28,7 @@ const FormIndividuals = (props) => {
                   : Promise.reject(new Error("Поле не должно содержать пробелы"))
             }
           ]}
+          initialValue=""
         >
           <Input 
             autoComplete="off"
@@ -50,6 +51,7 @@ const FormIndividuals = (props) => {
                   : Promise.reject(new Error("Поле не должно содержать пробелы"))
             }
           ]}
+          initialValue=""
         >
           <Input 
             autoComplete="off" 
@@ -72,6 +74,7 @@ const FormIndividuals = (props) => {
                   : Promise.reject(new Error("Поле не должно содержать пробелы"))
             }
           ]}
+          initialValue=""
         >
           <Input 
             autoComplete="off" 
@@ -119,12 +122,6 @@ const FormIndividuals = (props) => {
             {
               required: true,
               message: 'Укажите название',
-            },
-            {
-              validator: (_, value) =>
-                !value.includes(" ")
-                  ? Promise.resolve()
-                  : Promise.reject(new Error("Поле не должно содержать пробелы"))
             }
           ]}
         >

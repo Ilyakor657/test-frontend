@@ -3,10 +3,10 @@ import { Form, Button } from 'antd';
 import HomeSwitch from '../components/home/HomeSwitch'
 import FormIndividuals from '../components/forms/FormIndividuals'
 import FormLegal from '../components/forms/FormLegal'
-import FormCredit from '../components/forms/FormCredit'
+import FormLoan from '../components/forms/FormLoan'
 import dayjs from 'dayjs';
 import { dateClose } from "../service/dateService";
-//import FormContribution from '../components/forms/FormContribution'
+//import FormDeposit from '../components/forms/FormDeposit'
 
 function Home() {
   const [client, setClient] = useState(false)
@@ -39,20 +39,20 @@ function Home() {
   const [house, setHouse] = useState()
 
   //Кредит
-  const [dateOpenCredit, setDateOpenCredit] = useState(null)
-  const [dateCloseCredit, setDateCloseCredit] = useState(null)
-  const [periodCredit, setPeriodCredit] = useState(null)
-  const [amountCredit, setAmountCredit] = useState()
+  const [dateOpenLoan, setDateOpenLoan] = useState(null)
+  const [dateCloseLoan, setDateCloseLoan] = useState(null)
+  const [periodLoan, setPeriodLoan] = useState(null)
+  const [amountLoan, setAmountLoan] = useState()
 
   useEffect(() => {
-    if (periodCredit !== null && periodCredit !== "" && dateOpenCredit !== null) {
-      const date = dateClose(dateOpenCredit, periodCredit)
-      setDateCloseCredit(date)
-      form.setFieldValue('dateCloseCredit', dayjs(date, 'DD.MM.YYYY'))
+    if (periodLoan !== null && periodLoan !== "" && dateOpenLoan !== null) {
+      const date = dateClose(dateOpenLoan, periodLoan)
+      setDateCloseLoan(date)
+      form.setFieldValue('dateCloseLoan', dayjs(date, 'DD.MM.YYYY'))
     } else {
-      form.setFieldValue('dateCloseCredit', null)
+      form.setFieldValue('dateCloseLoan', null)
     }
-  }, [dateOpenCredit, periodCredit]);
+  }, [dateOpenLoan, periodLoan]);
 
   const send = async () => {
     try {
@@ -94,9 +94,9 @@ function Home() {
       }
       if (product) {
         console.log({
-          dateOpenCredit,
-          dateCloseCredit,
-          amountCredit
+          dateOpenLoan,
+          dateCloseLoan,
+          amountLoan
         });
       } else {
         console.log({
@@ -164,15 +164,15 @@ function Home() {
               setProduct={setProduct}
             />
             {product ? 
-              <FormCredit
-                setDateOpenCredit={setDateOpenCredit}
-                setDateCloseCredit={setDateCloseCredit}
-                setAmountCredit={setAmountCredit}
-                setPeriodCredit={setPeriodCredit}
+              <FormLoan
+                setDateOpenLoan={setDateOpenLoan}
+                setDateCloseLoan={setDateCloseLoan}
+                setAmountLoan={setAmountLoan}
+                setPeriodLoan={setPeriodLoan}
               />
             : 
               ''
-              //<FormContribution /> 
+              //<FormDeposit /> 
             }
           </div>
         </div>

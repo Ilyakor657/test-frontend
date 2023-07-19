@@ -26,6 +26,7 @@ const FormIndividuals = (props) => {
                   : Promise.reject(new Error("Поле не должно содержать пробелы"))
             }
           ]}
+          initialValue=""
         >
           <Input 
             autoComplete="off" 
@@ -48,6 +49,7 @@ const FormIndividuals = (props) => {
                   : Promise.reject(new Error("Поле не должно содержать пробелы"))
             }
           ]}
+          initialValue=""
         >
           <Input 
             autoComplete="off" 
@@ -70,6 +72,7 @@ const FormIndividuals = (props) => {
                   : Promise.reject(new Error("Поле не должно содержать пробелы"))
             }
           ]}
+          initialValue=""
         >
           <Input 
             autoComplete="off" 
