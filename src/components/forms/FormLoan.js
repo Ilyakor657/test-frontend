@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
-import { Form, DatePicker } from 'antd';
+import { Form, DatePicker, InputNumber } from 'antd';
 import InputMask from 'react-input-mask';
 import blackArrow from '../public/images/black-arrow.svg'
 import { dateString } from '../../service/dateService';
 
 const FormLoan = (props) => {
-  const [amountError, setAmountError] = useState(false)
   const [periodError, setPeriodError] = useState(false)
 
   return (
@@ -88,27 +87,18 @@ const FormLoan = (props) => {
         label="Сумма кредита"
         name="amountLoan"
         rules={[
-          {
-            validator: (_, value) => {
-              if(!(value === "")) {
-                setAmountError(false)
-                return Promise.resolve()
-              } else {
-                setAmountError(true)
-                return Promise.reject(new Error("Укажите сумму"))
-              }
-            }
+          { 
+            required: true, 
+            message: 'Укажите сумму' 
           }
         ]}
         initialValue={""}
       >
-        <InputMask 
+        <InputNumber 
+          formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}
+          controls={false}
+          onChange={value => props.setAmountLoan(value)}
           autoComplete="off"
-          type="tel"
-          mask='999 999 999'
-          maskChar={null}
-          className={`ant-input${amountError ? ' ant-input-status-error' : ''}`}
-          onChange={e => props.setAmountLoan(e.target.value.replace(/ /g,''))}
         />
       </Form.Item>
     </>
