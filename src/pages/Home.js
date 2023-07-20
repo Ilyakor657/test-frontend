@@ -4,9 +4,9 @@ import HomeSwitch from '../components/home/HomeSwitch'
 import FormIndividuals from '../components/forms/FormIndividuals'
 import FormLegal from '../components/forms/FormLegal'
 import FormLoan from '../components/forms/FormLoan'
+import FormDeposit from '../components/forms/FormDeposit'
 import dayjs from 'dayjs';
 import { dateClose } from "../service/dateService";
-//import FormDeposit from '../components/forms/FormDeposit'
 
 function Home() {
   const [client, setClient] = useState(false)
@@ -44,6 +44,12 @@ function Home() {
   const [periodLoan, setPeriodLoan] = useState(null)
   const [amountLoan, setAmountLoan] = useState()
 
+  //Вклад
+  const [dateOpenDeposit, setDateOpenDeposit] = useState(null)
+  const [dateCloseDeposit, setDateCloseDeposit] = useState(null)
+  const [periodDeposit, setPeriodDeposit] = useState(null)
+  const [amountDeposit, setAmountDeposit] = useState()
+
   useEffect(() => {
     if (periodLoan !== null && periodLoan !== "" && dateOpenLoan !== null) {
       const date = dateClose(dateOpenLoan, periodLoan)
@@ -53,6 +59,16 @@ function Home() {
       form.setFieldValue('dateCloseLoan', null)
     }
   }, [dateOpenLoan, periodLoan]);
+
+  useEffect(() => {
+    if (periodDeposit !== null && periodDeposit !== "" && dateOpenDeposit !== null) {
+      const date = dateClose(dateOpenDeposit, periodDeposit)
+      setDateCloseDeposit(date)
+      form.setFieldValue('dateCloseDeposit', dayjs(date, 'DD.MM.YYYY'))
+    } else {
+      form.setFieldValue('dateCloseDeposit', null)
+    }
+  }, [dateOpenDeposit, periodDeposit]);
 
   const send = async () => {
     try {
@@ -100,7 +116,9 @@ function Home() {
         });
       } else {
         console.log({
-          
+          dateOpenDeposit,
+          dateCloseDeposit,
+          amountDeposit
         });
       }
       setLoadingBtn(false)
@@ -171,8 +189,12 @@ function Home() {
                 setPeriodLoan={setPeriodLoan}
               />
             : 
-              ''
-              //<FormDeposit /> 
+              <FormDeposit 
+                setDateOpenDeposit={setDateOpenDeposit}
+                setDateCloseDeposit={setDateCloseDeposit}
+                setAmountDeposit={setAmountDeposit}
+                setPeriodDeposit={setPeriodDeposit}
+              /> 
             }
           </div>
         </div>

@@ -11,7 +11,7 @@ const FormLoan = (props) => {
   return (
     <>
       <div className='date'>
-        <div className='dateOpenLoan'>
+        <div className='date-open'>
           <Form.Item
             label="Дата открытия"
             name="dateOpenLoan"
