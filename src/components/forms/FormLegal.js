@@ -7,7 +7,7 @@ const FormIndividuals = (props) => {
   const [ogrnError, setOgrnError] = useState(false)
   const [orgInnError, setOrgInnError] = useState(false)
   const [kppError, setKppError] = useState(false)
-  const [abbreviation, setAbbreviation] = useState('')
+  const [abbreviation, setAbbreviation] = useState("")
 
   const handleChange = (value) => {
     setAbbreviation(value)
@@ -207,8 +207,9 @@ const FormIndividuals = (props) => {
             mask={abbreviation === 'ip' ? '9 9 9 9 9 9 9 9 9 9 9 9' : '9 9 9 9 9 9 9 9 9 9'}
             maskChar={null}
             className={`ant-input${orgInnError ? ' ant-input-status-error' : ''}`}
-            placeholder={abbreviation === 'ip' ? 'X X X X X X X X X X X X' : 'X X X X X X X X X X'}
+            placeholder={abbreviation === "" ? "" : `${abbreviation === 'ip' ? 'X X X X X X X X X X X X' : 'X X X X X X X X X X'}`}
             onChange={e => props.setInnOrg(e.target.value.replace(/ /g,''))}
+            disabled={abbreviation === ""}
           />
         </Form.Item>
 
