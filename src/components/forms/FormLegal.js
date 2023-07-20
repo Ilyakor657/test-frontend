@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input } from 'antd';
+import { Form, Input, Select } from 'antd';
 import InputMask from 'react-input-mask';
 
 const FormIndividuals = (props) => {
@@ -7,6 +7,11 @@ const FormIndividuals = (props) => {
   const [ogrnError, setOgrnError] = useState(false)
   const [orgInnError, setOrgInnError] = useState(false)
   const [kppError, setKppError] = useState(false)
+  const [abbreviation, setAbbreviation] = useState('')
+
+  const handleChange = (value) => {
+    setAbbreviation(value)
+  };
 
   return (
     <>
@@ -115,21 +120,39 @@ const FormIndividuals = (props) => {
       <span className='title-one-in-form'>Данные организации</span>
 
       <div className='organization'>
-        <Form.Item
-          label="Название организации"
-          name="nameOrg"
-          rules={[
-            {
-              required: true,
-              message: 'Укажите название',
-            }
-          ]}
-        >
-          <Input 
-            autoComplete="off" 
-            onChange={e => props.setNameOrg(e.target.value)}
-          />
-        </Form.Item>
+        <div className='name-organization'>
+          <Form.Item 
+            label=" "
+            name="abbreviation"
+            rules={[
+              {
+                required: true,
+                message: '',
+              }
+            ]}
+          >
+            <Select onChange={handleChange}>
+              <Select.Option value="ip">ИП</Select.Option>
+              <Select.Option value="legal">ЮЛ</Select.Option>
+            </Select>
+          </Form.Item>
+  
+          <Form.Item
+            label="Название организации"
+            name="nameOrg"
+            rules={[
+              {
+                required: true,
+                message: 'Укажите название',
+              }
+            ]}
+          >
+            <Input 
+              autoComplete="off" 
+              onChange={e => props.setNameOrg(e.target.value)}
+            />
+          </Form.Item>
+        </div>
 
         <Form.Item
           label="ОГРН"
@@ -181,10 +204,10 @@ const FormIndividuals = (props) => {
           <InputMask 
             autoComplete="off"
             type="tel"
-            mask='9 9 9 9 9 9 9 9 9 9 9 9'
+            mask={abbreviation === 'ip' ? '9 9 9 9 9 9 9 9 9 9 9 9' : '9 9 9 9 9 9 9 9 9 9'}
             maskChar={null}
             className={`ant-input${orgInnError ? ' ant-input-status-error' : ''}`}
-            placeholder='X X X X X X X X X X'
+            placeholder={abbreviation === 'ip' ? 'X X X X X X X X X X X X' : 'X X X X X X X X X X'}
             onChange={e => props.setInnOrg(e.target.value.replace(/ /g,''))}
           />
         </Form.Item>

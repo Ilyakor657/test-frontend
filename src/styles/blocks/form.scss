@@ -44,12 +44,12 @@
       }
     }
 
-    .ant-input, .ant-picker {
+    .ant-input, .ant-picker, .ant-select-selector {
       border: 1px solid #D9E1EF;
       border-radius: 12px;
       width: 100%;
       height: 44px;
-      padding: 4px 11px;
+      padding: 7px 11px;
       font-size: 16px !important;
       &:focus {
         border: 1px solid #49B2FE !important;
