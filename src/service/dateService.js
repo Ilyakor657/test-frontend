@@ -3,68 +3,81 @@ import dayjs from 'dayjs';
 function dateString(date) {
   let month
   let day
-  if ((date.get('month') + 1) < 10) {
-    month = `0${date.get('month') + 1}`
+  if ((date?.get('month') + 1) < 10) {
+    month = `0${date?.get('month') + 1}`
   } else {
-    month = date.get('month') + 1
+    month = date?.get('month') + 1
   }
-  if (date.get('date') < 10) {
-    day = `0${date.get('date')}`
+  if (date?.get('date') < 10) {
+    day = `0${date?.get('date')}`
   } else {
-    day = date.get('date') 
+    day = date?.get('date') 
   }
-  const dateString = `${day}.${month}.${date.get('year')}`
+  const dateString = `${day}.${month}.${date?.get('year')}`
   return dateString
 }
 
-function dateClose(dateOpen, period) {
-  let dateClose = dayjs(dateOpen, 'DD.MM.YYYY').add(period, 'month')
+function dateException(date) {
+  let dateNew = date
   while (true) {
     let i = 0
-    if (dateClose.get('date') <= 8 && dateClose.get('month') === 0) {
-      dateClose = dayjs(`09.01.${dateClose.get('year')}`, 'DD.MM.YYYY')
+    if (dateNew.get('date') <= 8 && dateNew.get('month') === 0) {
+      dateNew = dayjs(`09.01.${dateNew.get('year')}`, 'DD.MM.YYYY')
       i = 1
-    } else if (dateClose.get('date') === 23 && dateClose.get('month') === 1) {
-      dateClose = dayjs(`24.02.${dateClose.get('year')}`, 'DD.MM.YYYY')
+    } else if (dateNew.get('date') === 23 && dateNew.get('month') === 1) {
+      dateNew = dayjs(`24.02.${dateNew.get('year')}`, 'DD.MM.YYYY')
       i = 1
-    } else if (dateClose.get('date') === 8 && dateClose.get('month') === 3) {
-      dateClose = dayjs(`09.03.${dateClose.get('year')}`, 'DD.MM.YYYY')
+    } else if (dateNew.get('date') === 29 && dateNew.get('month') === 1) {
+      dateNew = dayjs(`01.03.${dateNew.get('year')}`, 'DD.MM.YYYY')
       i = 1
-    } else if (dateClose.get('date') === 1 && dateClose.get('month') === 4) {
-      dateClose = dayjs(`02.05.${dateClose.get('year')}`, 'DD.MM.YYYY')
+    } else if (dateNew.get('date') === 8 && dateNew.get('month') === 3) {
+      dateNew = dayjs(`09.03.${dateNew.get('year')}`, 'DD.MM.YYYY')
       i = 1
-    } else if (dateClose.get('date') === 9 && dateClose.get('month') === 4) {
-      dateClose = dayjs(`10.05.${dateClose.get('year')}`, 'DD.MM.YYYY')
+    } else if (dateNew.get('date') === 1 && dateNew.get('month') === 4) {
+      dateNew = dayjs(`02.05.${dateNew.get('year')}`, 'DD.MM.YYYY')
       i = 1
-    } else if (dateClose.get('date') === 12 && dateClose.get('month') === 5) {
-      dateClose = dayjs(`13.06.${dateClose.get('year')}`, 'DD.MM.YYYY')
+    } else if (dateNew.get('date') === 9 && dateNew.get('month') === 4) {
+      dateNew = dayjs(`10.05.${dateNew.get('year')}`, 'DD.MM.YYYY')
       i = 1
-    } else if (dateClose.get('date') === 4 && dateClose.get('month') === 10) {
-      dateClose = dayjs(`05.11.${dateClose.get('year')}`, 'DD.MM.YYYY')
+    } else if (dateNew.get('date') === 12 && dateNew.get('month') === 5) {
+      dateNew = dayjs(`13.06.${dateNew.get('year')}`, 'DD.MM.YYYY')
       i = 1
-    } else if (dateClose.get('day') === 0) {
+    } else if (dateNew.get('date') === 4 && dateNew.get('month') === 10) {
+      dateNew = dayjs(`05.11.${dateNew.get('year')}`, 'DD.MM.YYYY')
+      i = 1
+    } else if (dateNew.get('day') === 0) {
       let month
       let day
-      if ((dateClose.get('month') + 1) < 10) {
-        month = `0${dateClose.get('month') + 1}`
+      if ((dateNew.get('month') + 1) < 10) {
+        month = `0${dateNew.get('month') + 1}`
       } else {
-        month = dateClose.get('month') + 1
+        month = dateNew.get('month') + 1
       }
 
-      if (dateClose.get('date') < 9) {
-        day = `0${dateClose.get('date') + 1}`
-      } else if (dateClose.get('date') === 9) {
+      if (dateNew.get('date') < 9) {
+        day = `0${dateNew.get('date') + 1}`
+      } else if (dateNew.get('date') === 9) {
         day = 10
       } else {
-        day = dateClose.get('date') + 1
+        day = dateNew.get('date') + 1
       }
-      dateClose = dayjs(`${day}.${month}.${dateClose.get('year')}`, 'DD.MM.YYYY')
+      dateNew = dayjs(`${day}.${month}.${dateNew.get('year')}`, 'DD.MM.YYYY')
       i = 1
     }
     if (i === 0) break
   }
-
-  return dateString(dateClose)
+  return dateString(dateNew)
 }
 
-export {dateClose, dateString}
+function dateClose(dateOpen, period) {
+  let dateClose = null
+  if (dateOpen !== null && period !== null) {
+    dateClose = dateOpen
+    for (let i = 0; i < period; i++) {
+      dateClose = dateException(dayjs(dateClose, 'DD.MM.YYYY').add(1, 'month'))
+    }
+  }
+  return dateClose
+}
+
+export {dateClose, dateString, dateException}

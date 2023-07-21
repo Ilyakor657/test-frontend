@@ -35,7 +35,7 @@ const FormLoan = (props) => {
                 (current.get('date') === 4 && current.get('month') === 10) ||
                 current < dayjs().startOf('day')
               }
-              onChange={date => props.setDateOpenLoan(dateString(date))}
+              onChange={date => {date === null ? props.setDateOpenLoan(date) : props.setDateOpenLoan(dateString(date))}}
             />
           </Form.Item>
   
