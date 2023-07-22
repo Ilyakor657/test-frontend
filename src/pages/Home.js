@@ -7,6 +7,7 @@ import FormLoan from '../components/forms/FormLoan'
 import FormDeposit from '../components/forms/FormDeposit'
 import dayjs from 'dayjs';
 import { dateClose } from "../service/dateService";
+import PaymentSchedule from "../components/home/PaymentSchedule";
 
 function Home() {
   const [client, setClient] = useState(false)
@@ -42,7 +43,7 @@ function Home() {
   const [dateOpenLoan, setDateOpenLoan] = useState(null)
   const [dateCloseLoan, setDateCloseLoan] = useState(null)
   const [periodLoan, setPeriodLoan] = useState(null)
-  const [amountLoan, setAmountLoan] = useState()
+  const [amountLoan, setAmountLoan] = useState(null)
 
   //Вклад
   const [dateOpenDeposit, setDateOpenDeposit] = useState(null)
@@ -56,6 +57,7 @@ function Home() {
       setDateCloseLoan(date)
       form.setFieldValue('dateCloseLoan', dayjs(date, 'DD.MM.YYYY'))
     } else {
+      setDateCloseLoan(null)
       form.setFieldValue('dateCloseLoan', null)
     }
   }, [dateOpenLoan, periodLoan]);
@@ -66,6 +68,7 @@ function Home() {
       setDateCloseDeposit(date)
       form.setFieldValue('dateCloseDeposit', dayjs(date, 'DD.MM.YYYY'))
     } else {
+      setDateCloseDeposit(null)
       form.setFieldValue('dateCloseDeposit', null)
     }
   }, [dateOpenDeposit, periodDeposit]);
@@ -182,12 +185,19 @@ function Home() {
               setProduct={setProduct}
             />
             {product ? 
-              <FormLoan
-                setDateOpenLoan={setDateOpenLoan}
-                setDateCloseLoan={setDateCloseLoan}
-                setAmountLoan={setAmountLoan}
-                setPeriodLoan={setPeriodLoan}
-              />
+              <>
+                <FormLoan
+                  setDateOpenLoan={setDateOpenLoan}
+                  setDateCloseLoan={setDateCloseLoan}
+                  setAmountLoan={setAmountLoan}
+                  setPeriodLoan={setPeriodLoan}
+                />
+                <PaymentSchedule
+                  amountLoan={amountLoan}
+                  periodLoan={periodLoan}
+                  dateOpenLoan={dateOpenLoan}
+                />
+              </>
             : 
               <FormDeposit 
                 setDateOpenDeposit={setDateOpenDeposit}

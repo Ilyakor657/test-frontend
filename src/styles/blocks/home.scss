@@ -48,7 +48,7 @@
     }
   }
 
-  .ant-btn-primary {
+  .ant-btn-primary, .modal-btn {
     width: 50%;
     height: 44px;
     background: linear-gradient(93.45deg, #FA805D 1.96%, #F56C41 100%);
@@ -64,6 +64,7 @@
     justify-content: center;
     margin: auto;
     margin-top: 40px;
+    outline: none;
     &:hover {
       background: #DF5747 !important;
       box-shadow: 0px 4px 12px 0px rgba(246, 109, 67, 0.16), 0px 2px 4px 0px rgba(246, 109, 67, 0.16) !important;
@@ -78,5 +79,23 @@
       box-shadow: 0px 2px 4px rgba(246, 109, 67, 0.16), 0px 4px 12px rgba(246, 109, 67, 0.16);
       pointer-events: none;
     }
+  }
+}
+
+.ant-modal {
+  width: 677px !important;
+  .ant-modal-content {
+    padding: 40px;
+  }
+}
+
+.ant-table-tbody {
+  text-align: center;
+}
+
+.ant-pagination-item-active {
+  border-color: #FA805D !important;
+  a {
+    color: #FA805D !important;
   }
 }
