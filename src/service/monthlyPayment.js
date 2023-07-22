@@ -8,7 +8,7 @@ function monthlyPayment(amount, period, dateOpen) {
   let number = 0
   let dateLast
   let dateNow = dateOpen
-  let balance = amount
+  let balance = amount.toFixed(2)
   let amountPayment = (amount*(
     (rateMonth*Math.pow((1 + rateMonth), period))/
     (Math.pow((1 + rateMonth), period) - 1))
