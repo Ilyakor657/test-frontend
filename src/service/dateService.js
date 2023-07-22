@@ -27,9 +27,6 @@ function dateException(date) {
     } else if (dateNew.get('date') === 23 && dateNew.get('month') === 1) {
       dateNew = dayjs(`24.02.${dateNew.get('year')}`, 'DD.MM.YYYY')
       i = 1
-    } else if (dateNew.get('date') === 29 && dateNew.get('month') === 1) {
-      dateNew = dayjs(`01.03.${dateNew.get('year')}`, 'DD.MM.YYYY')
-      i = 1
     } else if (dateNew.get('date') === 8 && dateNew.get('month') === 3) {
       dateNew = dayjs(`09.03.${dateNew.get('year')}`, 'DD.MM.YYYY')
       i = 1
