@@ -17,6 +17,30 @@
     }
   }
 
+  .date-close-rate {
+    display: flex;
+    .ant-form-item {
+      &:nth-child(1) {
+        width: calc(50% - 8px);
+      }
+
+      &:nth-child(2) {
+        width: 60px;
+        margin-left: 16px;
+        .ant-input {
+          text-align: center;
+        }
+      }
+    }
+    .symbol-percent {
+      font-size: 26px;
+      display: inline-block;
+      margin-top: 27px;
+      margin-left: 2px;
+      height: 32px;
+    }
+  }
+
   .ant-form-item { 
     width: calc(50% - 8px);
     .ant-picker {
@@ -30,4 +54,15 @@
   height: 20px;
   transform: rotate(270deg);
   margin: 0 auto 8px 22%;
+}
+
+.interest-payments {
+  display: flex;
+  flex-direction: column;
+  .title-two-in-form {
+    margin: 0 !important;
+  }
+  .percent {
+    font-size: 32px;
+  }
 }
