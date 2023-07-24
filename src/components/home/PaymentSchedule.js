@@ -46,7 +46,7 @@ const PaymentSchedule = (props) => {
     <>
       <button 
         type="button" 
-        className='modal-btn' 
+        className='btn' 
         onClick={showModal}
         disabled={
           props.amountLoan === null || 
