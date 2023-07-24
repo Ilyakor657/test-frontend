@@ -16,6 +16,11 @@ function Home() {
   const [loadingBtn, setLoadingBtn] = useState(false)
   const [periodCapitalization, setPeriodCapitalization] = useState("0")
   const [form] = Form.useForm();
+  const [, forceUpdate] = useState({});
+
+  useEffect(() => {
+    forceUpdate({});
+  }, []);
 
   const [surnameIndividuals, setSurnameIndividuals] = useState()
   const [nameIndividuals, setNameIndividuals] = useState()
@@ -222,6 +227,23 @@ function Home() {
                   periodLoan={periodLoan}
                   dateOpenLoan={dateOpenLoan}
                 />
+                <Form.Item shouldUpdate>
+                  {() => (
+                    <Button
+                      type="button"
+                      className='btn'
+                      disabled={
+                        Object.values(form.getFieldsValue()).includes(undefined) ||
+                        Object.values(form.getFieldsValue()).includes(null) ||
+                        Object.values(form.getFieldsValue()).includes("") ||
+                        Object.values(form.getFieldsValue()).length === 0 ||
+                        !!form.getFieldsError().filter(({ errors }) => errors.length).length
+                      }
+                    >
+                      Отчет
+                    </Button>
+                  )}
+                </Form.Item>
               </>
             : 
               <>
