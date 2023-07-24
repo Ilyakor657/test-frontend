@@ -1,13 +1,18 @@
 .home {
-  width: 1080px;
-  margin: auto;
+  width: 100%;
   padding: 70px 0;
   justify-content: center;
   display: flex;
   flex-direction: column;
+  @include w767 {
+    padding: 20px 0;
+  }
   .forms {
     display: flex;
     grid-gap: 100px;
+    @include w767 {
+      display: block;
+    }
     .client, .product {
       width: 100%;
       .title-one-in-form {
@@ -32,9 +37,18 @@
         height: 30px;
       }
     }
+
+    .product {
+      @include w767 {
+        margin-top: 70px;
+      }
+      .title-two-in-form {
+        margin: 20px 0;
+      }
+    }
   }
 
-  .ant-btn-primary {
+  .ant-btn-primary, .modal-btn {
     width: 50%;
     height: 44px;
     background: linear-gradient(93.45deg, #FA805D 1.96%, #F56C41 100%);
@@ -50,6 +64,7 @@
     justify-content: center;
     margin: auto;
     margin-top: 40px;
+    outline: none;
     &:hover {
       background: #DF5747 !important;
       box-shadow: 0px 4px 12px 0px rgba(246, 109, 67, 0.16), 0px 2px 4px 0px rgba(246, 109, 67, 0.16) !important;
@@ -64,5 +79,23 @@
       box-shadow: 0px 2px 4px rgba(246, 109, 67, 0.16), 0px 4px 12px rgba(246, 109, 67, 0.16);
       pointer-events: none;
     }
+  }
+}
+
+.ant-modal {
+  width: 677px !important;
+  .ant-modal-content {
+    padding: 40px;
+  }
+}
+
+.ant-table-tbody {
+  text-align: center;
+}
+
+.ant-pagination-item-active {
+  border-color: #FA805D !important;
+  a {
+    color: #FA805D !important;
   }
 }

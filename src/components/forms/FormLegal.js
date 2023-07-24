@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
-import { Form, Input } from 'antd';
+import { Form, Input, Select } from 'antd';
 import InputMask from 'react-input-mask';
 
-const FormIndividuals = () => {
+const FormIndividuals = (props) => {
   const [innError, setInnError] = useState(false)
   const [ogrnError, setOgrnError] = useState(false)
   const [orgInnError, setOrgInnError] = useState(false)
   const [kppError, setKppError] = useState(false)
+  const [abbreviation, setAbbreviation] = useState("")
+  const [innSelect, setInnSelect] = useState()
+
+  const handleChange = (value) => {
+    setAbbreviation(value)
+    setInnSelect('success')
+  };
 
   return (
     <>
@@ -20,10 +27,20 @@ const FormIndividuals = () => {
             {
               required: true,
               message: 'Укажите фамилию',
+            },
+            {
+              validator: (_, value) =>
+                !value.includes(" ")
+                  ? Promise.resolve()
+                  : Promise.reject(new Error("Поле не должно содержать пробелы"))
             }
           ]}
+          initialValue=""
         >
-          <Input autoComplete="off" />
+          <Input 
+            autoComplete="off"
+            onChange={e => props.setSurnameLegal(e.target.value)}
+          />
         </Form.Item>
 
         <Form.Item
@@ -33,10 +50,20 @@ const FormIndividuals = () => {
             {
               required: true,
               message: 'Укажите имя',
+            },
+            {
+              validator: (_, value) =>
+                !value.includes(" ")
+                  ? Promise.resolve()
+                  : Promise.reject(new Error("Поле не должно содержать пробелы"))
             }
           ]}
+          initialValue=""
         >
-          <Input autoComplete="off" />
+          <Input 
+            autoComplete="off" 
+            onChange={e => props.setNameLegal(e.target.value)}
+          />
         </Form.Item>
 
         <Form.Item
@@ -46,10 +73,20 @@ const FormIndividuals = () => {
             {
               required: true,
               message: 'Укажите отчество',
+            },
+            {
+              validator: (_, value) =>
+                !value.includes(" ")
+                  ? Promise.resolve()
+                  : Promise.reject(new Error("Поле не должно содержать пробелы"))
             }
           ]}
+          initialValue=""
         >
-          <Input autoComplete="off" />
+          <Input 
+            autoComplete="off" 
+            onChange={e => props.setPatronymicLegal(e.target.value)}
+          />
         </Form.Item>
       </div>
 
@@ -78,24 +115,47 @@ const FormIndividuals = () => {
           maskChar={null}
           className={`ant-input${innError ? ' ant-input-status-error' : ''}`}
           placeholder='X X X X X X X X X X X X'
+          onChange={e => props.setInnLegal(e.target.value.replace(/ /g,''))}
         />
       </Form.Item>
 
       <span className='title-one-in-form'>Данные организации</span>
 
       <div className='organization'>
-        <Form.Item
-          label="Название организации"
-          name="nameOrganization"
-          rules={[
-            {
-              required: true,
-              message: 'Укажите название',
-            }
-          ]}
-        >
-          <Input autoComplete="off" />
-        </Form.Item>
+        <div className='name-organization'>
+          <Form.Item 
+            label=" "
+            name="abbreviation"
+            validateStatus={innSelect}
+            rules={[
+              {
+                required: true,
+                message: '',
+              }
+            ]}
+          >
+            <Select onChange={handleChange}>
+              <Select.Option value="ip">ИП</Select.Option>
+              <Select.Option value="legal">ЮЛ</Select.Option>
+            </Select>
+          </Form.Item>
+  
+          <Form.Item
+            label="Название организации"
+            name="nameOrg"
+            rules={[
+              {
+                required: true,
+                message: 'Укажите название',
+              }
+            ]}
+          >
+            <Input 
+              autoComplete="off" 
+              onChange={e => props.setNameOrg(e.target.value)}
+            />
+          </Form.Item>
+        </div>
 
         <Form.Item
           label="ОГРН"
@@ -122,12 +182,13 @@ const FormIndividuals = () => {
             maskChar={null}
             className={`ant-input${ogrnError ? ' ant-input-status-error' : ''}`}
             placeholder='X X X X X X X X X X X X X'
+            onChange={e => props.setOgrn(e.target.value.replace(/ /g,''))}
           />
         </Form.Item>
 
         <Form.Item
           label="ИНН"
-          name="orgInn"
+          name="innOrg"
           rules={[
             {
               validator: (_, value) => {
@@ -142,14 +203,17 @@ const FormIndividuals = () => {
             }
           ]}
           initialValue={""}
+          onClick={() => setInnSelect('error')}
         >
           <InputMask 
             autoComplete="off"
             type="tel"
-            mask='9 9 9 9 9 9 9 9 9 9 9 9'
+            mask={abbreviation === 'ip' ? '9 9 9 9 9 9 9 9 9 9 9 9' : '9 9 9 9 9 9 9 9 9 9'}
             maskChar={null}
             className={`ant-input${orgInnError ? ' ant-input-status-error' : ''}`}
-            placeholder='X X X X X X X X X X'
+            placeholder={abbreviation === "" ? "" : `${abbreviation === 'ip' ? 'X X X X X X X X X X X X' : 'X X X X X X X X X X'}`}
+            onChange={e => props.setInnOrg(e.target.value.replace(/ /g,''))}
+            disabled={abbreviation === ""}
           />
         </Form.Item>
 
@@ -178,6 +242,7 @@ const FormIndividuals = () => {
             maskChar={null}
             className={`ant-input${kppError ? ' ant-input-status-error' : ''}`}
             placeholder='X X X X X X X X X'
+            onChange={e => props.setKpp(e.target.value.replace(/ /g,''))}
           />
         </Form.Item>
 
@@ -194,7 +259,10 @@ const FormIndividuals = () => {
               }
             ]}
           >
-            <Input autoComplete="off" />
+            <Input 
+              autoComplete="off" 
+              onChange={e => props.setRegion(e.target.value)}
+            />
           </Form.Item>
 
           <Form.Item
@@ -207,7 +275,10 @@ const FormIndividuals = () => {
               }
             ]}
           >
-            <Input autoComplete="off" />
+            <Input 
+              autoComplete="off" 
+              onChange={e => props.setCity(e.target.value)}
+            />
           </Form.Item>
 
           <Form.Item
@@ -220,7 +291,10 @@ const FormIndividuals = () => {
               }
             ]}
           >
-            <Input autoComplete="off" />
+            <Input 
+              autoComplete="off" 
+              onChange={e => props.setStreet(e.target.value)}
+            />
           </Form.Item>
           
           <Form.Item
@@ -233,7 +307,11 @@ const FormIndividuals = () => {
               }
             ]}
           >
-            <Input type='number' autoComplete="off" />
+            <Input 
+              type='number' 
+              autoComplete="off" 
+              onChange={e => props.setHouse(e.target.value)}
+            />
           </Form.Item>
         </div>
       </div>

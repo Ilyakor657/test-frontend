@@ -44,12 +44,12 @@
       }
     }
 
-    .ant-input, .ant-picker {
+    .ant-input, .ant-picker, .ant-select-selector, .ant-input-number {
       border: 1px solid #D9E1EF;
       border-radius: 12px;
       width: 100%;
       height: 44px;
-      padding: 4px 11px;
+      padding: 6px 11px;
       font-size: 16px !important;
       &:focus {
         border: 1px solid #49B2FE !important;
@@ -61,6 +61,16 @@
         font-size: 16px !important;
         font-family: 'Commissioner' !important;
       }
+      &:disabled {
+        background: rgba(0, 0, 0, 0.01);
+      }
+      .ant-input-number-input {
+        padding: 0;
+      }
+    }
+
+    .ant-picker-disabled {
+      background: rgba(0, 0, 0, 0.01);
     }
     
     .ant-picker-input > input {
@@ -69,6 +79,9 @@
         color: #9BAAC3 !important;
         font-size: 16px !important;
         font-family: 'Commissioner' !important;
+      }
+      &:disabled {
+        color: rgba(0, 0, 0, 0.5);
       }
     }
 
