@@ -15,7 +15,6 @@ function Home() {
   const [loadingBtn, setLoadingBtn] = useState(false)
   const [form] = Form.useForm();
 
-  //Физическое лицо
   const [surnameIndividuals, setSurnameIndividuals] = useState()
   const [nameIndividuals, setNameIndividuals] = useState()
   const [patronymicIndividuals, setPatronymicIndividuals] = useState()
@@ -25,7 +24,6 @@ function Home() {
   const [number, setNumber] = useState()
   const [dateIssue, setDateIssue] = useState()
 
-  //Юридическое лицо
   const [surnameLegal, setSurnameLegal] = useState()
   const [nameLegal, setNameLegal] = useState()
   const [patronymicLegal, setPatronymicLegal] = useState()
@@ -39,13 +37,11 @@ function Home() {
   const [street, setStreet] = useState()
   const [house, setHouse] = useState()
 
-  //Кредит
   const [dateOpenLoan, setDateOpenLoan] = useState(null)
   const [dateCloseLoan, setDateCloseLoan] = useState(null)
   const [periodLoan, setPeriodLoan] = useState(null)
   const [amountLoan, setAmountLoan] = useState(null)
 
-  //Вклад
   const [dateOpenDeposit, setDateOpenDeposit] = useState(null)
   const [dateCloseDeposit, setDateCloseDeposit] = useState(null)
   const [periodDeposit, setPeriodDeposit] = useState(null)
@@ -73,57 +69,62 @@ function Home() {
     }
   }, [dateOpenDeposit, periodDeposit]);
 
+  let clientData
+  let productData
+  if (client) {
+    clientData = {
+      chief: {
+        surnameLegal,
+        nameLegal,
+        patronymicLegal,
+        innLegal,
+      },
+      org: {
+        nameOrg,
+        ogrn,
+        innOrg,
+        kpp,
+        address: {
+          region,
+          city,
+          street,
+          house
+        }
+      }
+    }
+  } else {
+    clientData = {
+      surnameIndividuals,
+      nameIndividuals,
+      patronymicIndividuals,
+      dateBirth,
+      innIndividuals,
+      passport: {
+        serial,
+        number,
+        dateIssue
+      }
+    }
+  }
+  if (product) {
+    productData = {
+      dateOpenLoan,
+      dateCloseLoan,
+      amountLoan
+    }
+  } else {
+    productData = {
+      dateOpenDeposit,
+      dateCloseDeposit,
+      amountDeposit
+    }
+  }
+
   const send = async () => {
     try {
       setLoadingBtn(true)
-      if (client) {
-        console.log({
-          chief: {
-            surnameLegal,
-            nameLegal,
-            patronymicLegal,
-            innLegal,
-          },
-          org: {
-            nameOrg,
-            ogrn,
-            innOrg,
-            kpp,
-            address: {
-              region,
-              city,
-              street,
-              house
-            }
-          }
-        });
-      } else {
-        console.log({
-          surnameIndividuals,
-          nameIndividuals,
-          patronymicIndividuals,
-          dateBirth,
-          innIndividuals,
-          passport: {
-            serial,
-            number,
-            dateIssue
-          }
-        });
-      }
-      if (product) {
-        console.log({
-          dateOpenLoan,
-          dateCloseLoan,
-          amountLoan
-        });
-      } else {
-        console.log({
-          dateOpenDeposit,
-          dateCloseDeposit,
-          amountDeposit
-        });
-      }
+      console.log(clientData)
+      console.log(productData)
       setLoadingBtn(false)
     } catch (e) {
       console.log(e);
