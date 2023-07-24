@@ -7,6 +7,7 @@ import { dateString } from '../../service/dateService';
 
 const FormDeposit = (props) => {
   const [periodError, setPeriodError] = useState(false)
+  const [rateError, setRateError] = useState(false)
 
   return (
     <>
@@ -69,22 +70,53 @@ const FormDeposit = (props) => {
 
         <img className='black-arrow' src={blackArrow} alt='img'/>
 
-        <Form.Item
-          label="Дата закрытия"
-          name="dateCloseDeposit"
-        >
-          <DatePicker 
-            placeholder='' 
-            format={'DD.MM.YYYY'}
-            suffixIcon={false}
-            disabled={true}
-            onChange={date => props.setDateCloseDeposit(date)}
-          />
-        </Form.Item>
+        <div className='date-close-rate'>
+          <Form.Item
+            label="Дата закрытия"
+            name="dateCloseDeposit"
+          >
+            <DatePicker 
+              placeholder='' 
+              format={'DD.MM.YYYY'}
+              suffixIcon={false}
+              disabled={true}
+              onChange={date => props.setDateCloseDeposit(date)}
+            />
+          </Form.Item>
+  
+          <Form.Item
+            label="Ставка"
+            name="rate"
+            rules={[
+              {
+                validator: (_, value) => {
+                  if(!(value.length < 23 || value === "")) {
+                    setRateError(false)
+                    return Promise.resolve()
+                  } else {
+                    setRateError(true)
+                    return Promise.reject(new Error(""))
+                  }
+                }
+              }
+            ]}
+            initialValue={""}
+          >
+            <InputMask 
+              autoComplete="off"
+              type="tel"
+              mask='999'
+              maskChar={null}
+              className={`ant-input${rateError ? ' ant-input-status-error' : ''}`}
+              onChange={e => props.setRateDeposit(e.target.value)}
+            />
+          </Form.Item>
+          <span className='symbol-percent'>%</span>
+        </div>
       </div>
 
       <Form.Item
-        label="Сумма кредита"
+        label="Сумма вклада"
         name="amountDeposit"
         rules={[
           { 
