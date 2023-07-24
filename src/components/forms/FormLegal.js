@@ -203,7 +203,7 @@ const FormIndividuals = (props) => {
             }
           ]}
           initialValue={""}
-          onClick={() => setInnSelect('error')}
+          onClick={() => {abbreviation !== "" ? '' : setInnSelect('error')}}
         >
           <InputMask 
             autoComplete="off"
