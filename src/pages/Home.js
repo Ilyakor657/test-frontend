@@ -8,6 +8,7 @@ import FormDeposit from '../components/forms/FormDeposit'
 import dayjs from 'dayjs';
 import { dateClose } from "../service/dateService";
 import PaymentSchedule from "../components/home/PaymentSchedule";
+import capitalization from "../service/capitalization";
 
 function Home() {
   const [client, setClient] = useState(false)
@@ -45,7 +46,8 @@ function Home() {
   const [dateOpenDeposit, setDateOpenDeposit] = useState(null)
   const [dateCloseDeposit, setDateCloseDeposit] = useState(null)
   const [periodDeposit, setPeriodDeposit] = useState(null)
-  const [amountDeposit, setAmountDeposit] = useState()
+  const [amountDeposit, setAmountDeposit] = useState(null)
+  const [rateDeposit, setRateDeposit] = useState(null)
 
   useEffect(() => {
     if (periodLoan !== null && periodLoan !== "" && dateOpenLoan !== null) {
@@ -116,7 +118,8 @@ function Home() {
     productData = {
       dateOpenDeposit,
       dateCloseDeposit,
-      amountDeposit
+      amountDeposit,
+      rateDeposit
     }
   }
 
@@ -200,12 +203,32 @@ function Home() {
                 />
               </>
             : 
-              <FormDeposit 
-                setDateOpenDeposit={setDateOpenDeposit}
-                setDateCloseDeposit={setDateCloseDeposit}
-                setAmountDeposit={setAmountDeposit}
-                setPeriodDeposit={setPeriodDeposit}
-              /> 
+              <>
+                <FormDeposit 
+                  setDateOpenDeposit={setDateOpenDeposit}
+                  setDateCloseDeposit={setDateCloseDeposit}
+                  setAmountDeposit={setAmountDeposit}
+                  setPeriodDeposit={setPeriodDeposit}
+                  setRateDeposit={setRateDeposit}
+                />
+                <div className="interest-payments">
+                  <span className="title-two-in-form">Начисленные проценты (в конце срока):</span>
+                  <span className="percent">
+                    {
+                      amountLoan === null || 
+                      periodLoan === null || 
+                      periodLoan === "" || 
+                      dateOpenLoan === null ||
+                      rateDeposit === null ||
+                      rateDeposit === ""
+                    ?
+                      0
+                    :
+                      capitalization(amountDeposit, periodDeposit, dateOpenDeposit, rateDeposit)  
+                    }
+                  </span>
+                </div>
+              </>
             }
           </div>
         </div>
