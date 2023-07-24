@@ -8,9 +8,11 @@ const FormIndividuals = (props) => {
   const [orgInnError, setOrgInnError] = useState(false)
   const [kppError, setKppError] = useState(false)
   const [abbreviation, setAbbreviation] = useState("")
+  const [innSelect, setInnSelect] = useState()
 
   const handleChange = (value) => {
     setAbbreviation(value)
+    setInnSelect('success')
   };
 
   return (
@@ -124,6 +126,7 @@ const FormIndividuals = (props) => {
           <Form.Item 
             label=" "
             name="abbreviation"
+            validateStatus={innSelect}
             rules={[
               {
                 required: true,
@@ -200,6 +203,7 @@ const FormIndividuals = (props) => {
             }
           ]}
           initialValue={""}
+          onClick={() => setInnSelect('error')}
         >
           <InputMask 
             autoComplete="off"
