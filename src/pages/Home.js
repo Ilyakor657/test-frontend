@@ -14,6 +14,7 @@ function Home() {
   const [client, setClient] = useState(false)
   const [product, setProduct] = useState(true)
   const [loadingBtn, setLoadingBtn] = useState(false)
+  const [periodCapitalization, setPeriodCapitalization] = useState("0")
   const [form] = Form.useForm();
 
   const [surnameIndividuals, setSurnameIndividuals] = useState()
@@ -70,6 +71,26 @@ function Home() {
       form.setFieldValue('dateCloseDeposit', null)
     }
   }, [dateOpenDeposit, periodDeposit]);
+
+  useEffect(() => {
+    if (
+      amountDeposit !== null && 
+      periodDeposit !== null && 
+      periodDeposit !== "" && 
+      dateOpenDeposit !== null &&
+      rateDeposit !== null &&
+      rateDeposit !== ""
+    ) {
+      setPeriodCapitalization(capitalization(
+        amountDeposit, 
+        periodDeposit, 
+        dateOpenDeposit, 
+        rateDeposit
+      ))
+    } else {
+      setPeriodCapitalization("0")
+    }
+  }, [dateOpenDeposit, periodDeposit, amountDeposit, rateDeposit]);
 
   let clientData
   let productData
@@ -213,20 +234,7 @@ function Home() {
                 />
                 <div className="interest-payments">
                   <span className="title-two-in-form">Начисленные проценты (в конце срока):</span>
-                  <span className="percent">
-                    {
-                      amountLoan === null || 
-                      periodLoan === null || 
-                      periodLoan === "" || 
-                      dateOpenLoan === null ||
-                      rateDeposit === null ||
-                      rateDeposit === ""
-                    ?
-                      0
-                    :
-                      capitalization(amountDeposit, periodDeposit, dateOpenDeposit, rateDeposit)  
-                    }
-                  </span>
+                  <span className="percent">{periodCapitalization}</span>
                 </div>
               </>
             }

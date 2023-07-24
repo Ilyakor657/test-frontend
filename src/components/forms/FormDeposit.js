@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
-import { Form, DatePicker, InputNumber } from 'antd';
+import { Form, DatePicker, InputNumber, Input } from 'antd';
 import InputMask from 'react-input-mask';
 import blackArrow from '../public/images/black-arrow.svg'
 import { dateString } from '../../service/dateService';
 
 const FormDeposit = (props) => {
   const [periodError, setPeriodError] = useState(false)
-  const [rateError, setRateError] = useState(false)
 
   return (
     <>
@@ -89,25 +88,14 @@ const FormDeposit = (props) => {
             name="rate"
             rules={[
               {
-                validator: (_, value) => {
-                  if(!(value.length < 23 || value === "")) {
-                    setRateError(false)
-                    return Promise.resolve()
-                  } else {
-                    setRateError(true)
-                    return Promise.reject(new Error(""))
-                  }
-                }
+                required: true, 
+                message: '' 
               }
             ]}
-            initialValue={""}
           >
-            <InputMask 
-              autoComplete="off"
-              type="tel"
-              mask='999'
-              maskChar={null}
-              className={`ant-input${rateError ? ' ant-input-status-error' : ''}`}
+            <Input 
+              type='number' 
+              autoComplete="off" 
               onChange={e => props.setRateDeposit(e.target.value)}
             />
           </Form.Item>
