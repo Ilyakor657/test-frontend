@@ -9,6 +9,7 @@ import dayjs from 'dayjs';
 import { dateClose } from "../service/dateService";
 import PaymentSchedule from "../components/home/PaymentSchedule";
 import capitalization from "../service/capitalization";
+import report from "../service/report";
 
 function Home() {
   const [client, setClient] = useState(false)
@@ -232,6 +233,7 @@ function Home() {
                     <Button
                       type="button"
                       className='btn'
+                      onClick={() => report(client, clientData, productData, periodLoan)}
                       disabled={
                         Object.values(form.getFieldsValue()).includes(undefined) ||
                         Object.values(form.getFieldsValue()).includes(null) ||
