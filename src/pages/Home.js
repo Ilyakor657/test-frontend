@@ -8,14 +8,21 @@ import FormDeposit from '../components/forms/FormDeposit'
 import dayjs from 'dayjs';
 import { dateClose } from "../service/dateService";
 import PaymentSchedule from "../components/home/PaymentSchedule";
+import capitalization from "../service/capitalization";
+import report from "../service/report";
 
 function Home() {
   const [client, setClient] = useState(false)
   const [product, setProduct] = useState(true)
   const [loadingBtn, setLoadingBtn] = useState(false)
+  const [periodCapitalization, setPeriodCapitalization] = useState("0")
   const [form] = Form.useForm();
+  const [, forceUpdate] = useState({});
 
-  //Физическое лицо
+  useEffect(() => {
+    forceUpdate({});
+  }, []);
+
   const [surnameIndividuals, setSurnameIndividuals] = useState()
   const [nameIndividuals, setNameIndividuals] = useState()
   const [patronymicIndividuals, setPatronymicIndividuals] = useState()
@@ -25,7 +32,6 @@ function Home() {
   const [number, setNumber] = useState()
   const [dateIssue, setDateIssue] = useState()
 
-  //Юридическое лицо
   const [surnameLegal, setSurnameLegal] = useState()
   const [nameLegal, setNameLegal] = useState()
   const [patronymicLegal, setPatronymicLegal] = useState()
@@ -39,17 +45,16 @@ function Home() {
   const [street, setStreet] = useState()
   const [house, setHouse] = useState()
 
-  //Кредит
   const [dateOpenLoan, setDateOpenLoan] = useState(null)
   const [dateCloseLoan, setDateCloseLoan] = useState(null)
   const [periodLoan, setPeriodLoan] = useState(null)
   const [amountLoan, setAmountLoan] = useState(null)
 
-  //Вклад
   const [dateOpenDeposit, setDateOpenDeposit] = useState(null)
   const [dateCloseDeposit, setDateCloseDeposit] = useState(null)
   const [periodDeposit, setPeriodDeposit] = useState(null)
-  const [amountDeposit, setAmountDeposit] = useState()
+  const [amountDeposit, setAmountDeposit] = useState(null)
+  const [rateDeposit, setRateDeposit] = useState(null)
 
   useEffect(() => {
     if (periodLoan !== null && periodLoan !== "" && dateOpenLoan !== null) {
@@ -73,57 +78,83 @@ function Home() {
     }
   }, [dateOpenDeposit, periodDeposit]);
 
+  useEffect(() => {
+    if (
+      amountDeposit !== null && 
+      periodDeposit !== null && 
+      periodDeposit !== "" && 
+      dateOpenDeposit !== null &&
+      rateDeposit !== null &&
+      rateDeposit !== ""
+    ) {
+      setPeriodCapitalization(capitalization(
+        amountDeposit, 
+        periodDeposit, 
+        dateOpenDeposit, 
+        rateDeposit
+      ))
+    } else {
+      setPeriodCapitalization("0")
+    }
+  }, [dateOpenDeposit, periodDeposit, amountDeposit, rateDeposit]);
+
+  let clientData
+  let productData
+  if (client) {
+    clientData = {
+      chief: {
+        surnameLegal,
+        nameLegal,
+        patronymicLegal,
+        innLegal,
+      },
+      org: {
+        nameOrg,
+        ogrn,
+        innOrg,
+        kpp,
+        address: {
+          region,
+          city,
+          street,
+          house
+        }
+      }
+    }
+  } else {
+    clientData = {
+      surnameIndividuals,
+      nameIndividuals,
+      patronymicIndividuals,
+      dateBirth,
+      innIndividuals,
+      passport: {
+        serial,
+        number,
+        dateIssue
+      }
+    }
+  }
+  if (product) {
+    productData = {
+      dateOpenLoan,
+      dateCloseLoan,
+      amountLoan
+    }
+  } else {
+    productData = {
+      dateOpenDeposit,
+      dateCloseDeposit,
+      amountDeposit,
+      rateDeposit
+    }
+  }
+
   const send = async () => {
     try {
       setLoadingBtn(true)
-      if (client) {
-        console.log({
-          chief: {
-            surnameLegal,
-            nameLegal,
-            patronymicLegal,
-            innLegal,
-          },
-          org: {
-            nameOrg,
-            ogrn,
-            innOrg,
-            kpp,
-            address: {
-              region,
-              city,
-              street,
-              house
-            }
-          }
-        });
-      } else {
-        console.log({
-          surnameIndividuals,
-          nameIndividuals,
-          patronymicIndividuals,
-          dateBirth,
-          innIndividuals,
-          passport: {
-            serial,
-            number,
-            dateIssue
-          }
-        });
-      }
-      if (product) {
-        console.log({
-          dateOpenLoan,
-          dateCloseLoan,
-          amountLoan
-        });
-      } else {
-        console.log({
-          dateOpenDeposit,
-          dateCloseDeposit,
-          amountDeposit
-        });
-      }
+      console.log(clientData)
+      console.log(productData)
       setLoadingBtn(false)
     } catch (e) {
       console.log(e);
@@ -197,14 +228,39 @@ function Home() {
                   periodLoan={periodLoan}
                   dateOpenLoan={dateOpenLoan}
                 />
+                <Form.Item shouldUpdate>
+                  {() => (
+                    <Button
+                      type="button"
+                      className='btn'
+                      onClick={() => report(client, clientData, productData, periodLoan)}
+                      disabled={
+                        Object.values(form.getFieldsValue()).includes(undefined) ||
+                        Object.values(form.getFieldsValue()).includes(null) ||
+                        Object.values(form.getFieldsValue()).includes("") ||
+                        Object.values(form.getFieldsValue()).length === 0 ||
+                        !!form.getFieldsError().filter(({ errors }) => errors.length).length
+                      }
+                    >
+                      Отчет
+                    </Button>
+                  )}
+                </Form.Item>
               </>
             : 
-              <FormDeposit 
-                setDateOpenDeposit={setDateOpenDeposit}
-                setDateCloseDeposit={setDateCloseDeposit}
-                setAmountDeposit={setAmountDeposit}
-                setPeriodDeposit={setPeriodDeposit}
-              /> 
+              <>
+                <FormDeposit 
+                  setDateOpenDeposit={setDateOpenDeposit}
+                  setDateCloseDeposit={setDateCloseDeposit}
+                  setAmountDeposit={setAmountDeposit}
+                  setPeriodDeposit={setPeriodDeposit}
+                  setRateDeposit={setRateDeposit}
+                />
+                <div className="interest-payments">
+                  <span className="title-two-in-form">Начисленные проценты (в конце срока):</span>
+                  <span className="percent">{periodCapitalization}</span>
+                </div>
+              </>
             }
           </div>
         </div>

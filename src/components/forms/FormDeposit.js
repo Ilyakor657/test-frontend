@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
-import { Form, DatePicker, InputNumber } from 'antd';
+import { Form, DatePicker, InputNumber, Input } from 'antd';
 import InputMask from 'react-input-mask';
 import blackArrow from '../public/images/black-arrow.svg'
 import { dateString } from '../../service/dateService';
@@ -69,22 +69,42 @@ const FormDeposit = (props) => {
 
         <img className='black-arrow' src={blackArrow} alt='img'/>
 
-        <Form.Item
-          label="Дата закрытия"
-          name="dateCloseDeposit"
-        >
-          <DatePicker 
-            placeholder='' 
-            format={'DD.MM.YYYY'}
-            suffixIcon={false}
-            disabled={true}
-            onChange={date => props.setDateCloseDeposit(date)}
-          />
-        </Form.Item>
+        <div className='date-close-rate'>
+          <Form.Item
+            label="Дата закрытия"
+            name="dateCloseDeposit"
+          >
+            <DatePicker 
+              placeholder='' 
+              format={'DD.MM.YYYY'}
+              suffixIcon={false}
+              disabled={true}
+              onChange={date => props.setDateCloseDeposit(date)}
+            />
+          </Form.Item>
+  
+          <Form.Item
+            label="Ставка"
+            name="rate"
+            rules={[
+              {
+                required: true, 
+                message: '' 
+              }
+            ]}
+          >
+            <Input 
+              type='number' 
+              autoComplete="off" 
+              onChange={e => props.setRateDeposit(e.target.value)}
+            />
+          </Form.Item>
+          <span className='symbol-percent'>%</span>
+        </div>
       </div>
 
       <Form.Item
-        label="Сумма кредита"
+        label="Сумма вклада"
         name="amountDeposit"
         rules={[
           { 
