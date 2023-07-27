@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Form, Input, DatePicker } from 'antd';
 import InputMask from 'react-input-mask';
 import { dateString } from '../../service/dateService';
+import 'dayjs/locale/ru';
+import locale from 'antd/es/date-picker/locale/ru_RU';
 
 const FormIndividuals = (props) => {
   const [innError, setInnError] = useState(false)
@@ -95,6 +97,7 @@ const FormIndividuals = (props) => {
           placeholder='Выберите дату' 
           format={'DD.MM.YYYY'} 
           onChange={date => props.setDateBirth(dateString(date))}
+          locale={locale}
         />
       </Form.Item>
 
@@ -202,6 +205,7 @@ const FormIndividuals = (props) => {
             placeholder='Выберите дату' 
             format={'DD.MM.YYYY'} 
             onChange={date => props.setDateIssue(dateString(date))}
+            locale={locale}
           />
         </Form.Item>
       </div>
