@@ -124,16 +124,16 @@ function Home() {
     }
   } else {
     clientData = {
-      type: 'individuals',
+      type: 'individual',
       surnameIndividuals,
       nameIndividuals,
       patronymicIndividuals,
-      dateBirth,
+      dateBirth: dateBirth.split('.').reverse().join('-'),
       innIndividuals,
       passport: {
         serial,
         number,
-        dateIssue
+        dateIssue: dateIssue.split('.').reverse().join('-')
       }
     }
   }
@@ -141,8 +141,8 @@ function Home() {
     type: `${product ? 'loan' : 'deposit'}`,
     amount: `${product ? amountLoan : amountDeposit}`,
     rate: `${product ? process.env.REACT_APP_LOAN_RATE : rateDeposit}`,
-    dateOpen: `${product ? dateOpenLoan : dateOpenDeposit}`,
-    dateClose: `${product ? dateCloseLoan : dateCloseDeposit}`
+    dateOpen: `${product ? dateOpenLoan.split('.').reverse().join('-') : dateOpenDeposit.split('.').reverse().join('-')}`,
+    dateClose: `${product ? dateCloseLoan.split('.').reverse().join('-') : dateCloseDeposit.split('.').reverse().join('-')}`
   }
 
   const send = async () => {
