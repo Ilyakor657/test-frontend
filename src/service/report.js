@@ -29,18 +29,18 @@ function report(clientCheck, client, product, period) {
         <surnameIndividuals>${client.surnameIndividuals}</surnameIndividuals>
         <nameIndividuals>${client.nameIndividuals}</nameIndividuals>
         <patronymicIndividuals>${client.patronymicIndividuals}</patronymicIndividuals>
-        <dateBirth>${client.dateBirth}</dateBirth>
+        <dateBirth>${client.dateBirth.split('-').reverse().join('.')}</dateBirth>
         <innIndividuals>${client.innIndividuals}</innIndividuals>
         <passport>
           <serial>${client.passport.serial}</serial>
           <number>${client.passport.number}</number>
-          <dateIssue>${client.passport.dateIssue}</dateIssue>
+          <dateIssue>${client.passport.dateIssue.split('-').reverse().join('.')}</dateIssue>
         </passport>
       </client>`
   }
   let productString = 
     `<table>
-      ${monthlyPayment(JSON.parse(product.amount), period, product.dateOpen).map((payment) => 
+      ${monthlyPayment(JSON.parse(product.amount), period, product.dateOpen.split('-').reverse().join('.')).map((payment) => 
         `<payment>
           <number>${payment.number}</number>
           <date>${payment.date}</date>
