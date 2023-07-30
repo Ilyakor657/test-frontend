@@ -154,6 +154,16 @@ function Home() {
     setLoadingBtn(true)
     sendApplication(clientData, productData).then((data) => {
       setLoadingBtn(false)
+      form.resetFields();
+      setDateOpenLoan(null)
+      setDateCloseLoan(null)
+      setPeriodLoan(null)
+      setAmountLoan(null)
+      setDateOpenDeposit(null)
+      setDateCloseDeposit(null)
+      setPeriodDeposit(null)
+      setAmountDeposit(null)
+      setRateDeposit(null)
       console.log(data.data);
     }).catch((e) => {
       console.log(e);
