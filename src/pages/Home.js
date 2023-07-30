@@ -11,6 +11,7 @@ import PaymentSchedule from "../components/home/PaymentSchedule";
 import capitalization from "../service/capitalization";
 import report from "../service/report";
 import { sendApplication } from "../http/API"
+import MessageAPI from "../components/MessageAPI"
 
 function Home() {
   const [client, setClient] = useState(false)
@@ -18,6 +19,7 @@ function Home() {
   const [loadingBtn, setLoadingBtn] = useState(false)
   const [periodCapitalization, setPeriodCapitalization] = useState("0")
   const [abbreviation, setAbbreviation] = useState("")
+  const [messageAPI, setMessageAPI] = useState([])
   const [form] = Form.useForm();
   const [, forceUpdate] = useState({});
 
@@ -153,7 +155,6 @@ function Home() {
   const send = async () => {
     setLoadingBtn(true)
     sendApplication(clientData, productData).then((data) => {
-      setLoadingBtn(false)
       form.resetFields();
       setDateOpenLoan(null)
       setDateCloseLoan(null)
@@ -164,10 +165,18 @@ function Home() {
       setPeriodDeposit(null)
       setAmountDeposit(null)
       setRateDeposit(null)
-      console.log(data.data);
+      setLoadingBtn(false)
+      setMessageAPI(['success', data.data])
+      setTimeout(() => {
+        setMessageAPI([])
+      }, 2500);
     }).catch((e) => {
       console.log(e);
       setLoadingBtn(false)
+      setMessageAPI(['error', 'Ошибка отправки'])
+      setTimeout(() => {
+        setMessageAPI([])
+      }, 2500);
     })
   }
 
@@ -297,6 +306,7 @@ function Home() {
           )}
         </Form.Item>
       </Form>
+      <MessageAPI messageAPI={messageAPI}/>
     </section>
   );
 }
