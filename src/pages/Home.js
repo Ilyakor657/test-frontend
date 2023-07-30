@@ -10,6 +10,7 @@ import { dateClose } from "../service/dateService";
 import PaymentSchedule from "../components/home/PaymentSchedule";
 import capitalization from "../service/capitalization";
 import report from "../service/report";
+import { sendApplication } from "../http/API"
 
 function Home() {
   const [client, setClient] = useState(false)
@@ -99,9 +100,9 @@ function Home() {
   }, [dateOpenDeposit, periodDeposit, amountDeposit, rateDeposit]);
 
   let clientData
-  let productData
   if (client) {
     clientData = {
+      type: 'legal',
       chief: {
         surnameLegal,
         nameLegal,
@@ -123,43 +124,35 @@ function Home() {
     }
   } else {
     clientData = {
+      type: 'individual',
       surnameIndividuals,
       nameIndividuals,
       patronymicIndividuals,
-      dateBirth,
+      dateBirth: dateBirth.split('.').reverse().join('-'),
       innIndividuals,
       passport: {
         serial,
         number,
-        dateIssue
+        dateIssue: dateIssue.split('.').reverse().join('-')
       }
     }
   }
-  if (product) {
-    productData = {
-      dateOpenLoan,
-      dateCloseLoan,
-      amountLoan
-    }
-  } else {
-    productData = {
-      dateOpenDeposit,
-      dateCloseDeposit,
-      amountDeposit,
-      rateDeposit
-    }
+  let productData = {
+    type: `${product ? 'loan' : 'deposit'}`,
+    amount: `${product ? amountLoan : amountDeposit}`,
+    rate: `${product ? process.env.REACT_APP_LOAN_RATE : rateDeposit}`,
+    dateOpen: `${product ? dateOpenLoan.split('.').reverse().join('-') : dateOpenDeposit.split('.').reverse().join('-')}`,
+    dateClose: `${product ? dateCloseLoan.split('.').reverse().join('-') : dateCloseDeposit.split('.').reverse().join('-')}`
   }
 
   const send = async () => {
-    try {
-      setLoadingBtn(true)
-      console.log(clientData)
-      console.log(productData)
+    setLoadingBtn(true)
+    sendApplication(clientData, productData).then(() => {
       setLoadingBtn(false)
-    } catch (e) {
+    }).catch((e) => {
       console.log(e);
       setLoadingBtn(false)
-    }
+    })
   }
 
   return (
@@ -265,14 +258,24 @@ function Home() {
           </div>
         </div>
 
-        <Form.Item>
-          <Button 
-            type="primary" 
-            htmlType="submit" 
-            loading={loadingBtn}
-          >
-            {loadingBtn ? '' : 'Отправить'}
-          </Button> 
+        <Form.Item shouldUpdate>
+          {() => (
+            <Button 
+              type="primary" 
+              htmlType="submit" 
+              className='btn'
+              loading={loadingBtn}
+              disabled={
+                Object.values(form.getFieldsValue()).includes(undefined) ||
+                Object.values(form.getFieldsValue()).includes(null) ||
+                Object.values(form.getFieldsValue()).includes("") ||
+                Object.values(form.getFieldsValue()).length === 0 ||
+                !!form.getFieldsError().filter(({ errors }) => errors.length).length
+              }
+            >
+              {loadingBtn ? '' : 'Отправить'}
+            </Button> 
+          )}
         </Form.Item>
       </Form>
     </section>

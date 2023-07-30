@@ -40,7 +40,7 @@ function report(clientCheck, client, product, period) {
   }
   let productString = 
     `<table>
-      ${monthlyPayment(product.amountLoan, period, product.dateOpenLoan).map((payment) => 
+      ${monthlyPayment(JSON.parse(product.amount), period, product.dateOpen).map((payment) => 
         `<payment>
           <number>${payment.number}</number>
           <date>${payment.date}</date>

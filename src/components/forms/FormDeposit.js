@@ -4,6 +4,8 @@ import { Form, DatePicker, InputNumber, Input } from 'antd';
 import InputMask from 'react-input-mask';
 import blackArrow from '../public/images/black-arrow.svg'
 import { dateString } from '../../service/dateService';
+import 'dayjs/locale/ru';
+import locale from 'antd/es/date-picker/locale/ru_RU';
 
 const FormDeposit = (props) => {
   const [periodError, setPeriodError] = useState(false)
@@ -25,6 +27,7 @@ const FormDeposit = (props) => {
             <DatePicker 
               placeholder='Выберите дату' 
               format={'DD.MM.YYYY'}
+              locale={locale}
               disabledDate={(current) => 
                 (current.get('date') <= 8 && current.get('month') === 0) ||
                 (current.get('date') === 23 && current.get('month') === 1) ||
