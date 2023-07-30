@@ -22,8 +22,8 @@
               <span style="display: inline-block; margin-bottom: 10px;">
                 Адрес:<br></br>
                 <xsl:value-of select="region"/>,&#160;
-                <xsl:value-of select="city"/>,&#160;
-                <xsl:value-of select="street"/>,&#160;
+                г.&#160;<xsl:value-of select="city"/>,&#160;
+                ул.&#160;<xsl:value-of select="street"/>&#160;
                 <xsl:value-of select="house"/>&#160;
               </span><br></br>
             </xsl:for-each>
