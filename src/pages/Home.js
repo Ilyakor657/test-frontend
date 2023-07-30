@@ -11,12 +11,15 @@ import PaymentSchedule from "../components/home/PaymentSchedule";
 import capitalization from "../service/capitalization";
 import report from "../service/report";
 import { sendApplication } from "../http/API"
+import MessageAPI from "../components/MessageAPI"
 
 function Home() {
   const [client, setClient] = useState(false)
   const [product, setProduct] = useState(true)
   const [loadingBtn, setLoadingBtn] = useState(false)
   const [periodCapitalization, setPeriodCapitalization] = useState("0")
+  const [abbreviation, setAbbreviation] = useState("")
+  const [messageAPI, setMessageAPI] = useState([])
   const [form] = Form.useForm();
   const [, forceUpdate] = useState({});
 
@@ -99,6 +102,10 @@ function Home() {
     }
   }, [dateOpenDeposit, periodDeposit, amountDeposit, rateDeposit]);
 
+  const innClear = async () => {
+    form.setFieldValue('innOrg', "")
+  }
+
   let clientData
   if (client) {
     clientData = {
@@ -128,12 +135,12 @@ function Home() {
       surnameIndividuals,
       nameIndividuals,
       patronymicIndividuals,
-      dateBirth: dateBirth.split('.').reverse().join('-'),
+      dateBirth: dateBirth?.split('.').reverse().join('-'),
       innIndividuals,
       passport: {
         serial,
         number,
-        dateIssue: dateIssue.split('.').reverse().join('-')
+        dateIssue: dateIssue?.split('.').reverse().join('-')
       }
     }
   }
@@ -141,17 +148,35 @@ function Home() {
     type: `${product ? 'loan' : 'deposit'}`,
     amount: `${product ? amountLoan : amountDeposit}`,
     rate: `${product ? process.env.REACT_APP_LOAN_RATE : rateDeposit}`,
-    dateOpen: `${product ? dateOpenLoan.split('.').reverse().join('-') : dateOpenDeposit.split('.').reverse().join('-')}`,
-    dateClose: `${product ? dateCloseLoan.split('.').reverse().join('-') : dateCloseDeposit.split('.').reverse().join('-')}`
+    dateOpen: `${product ? dateOpenLoan?.split('.').reverse().join('-') : dateOpenDeposit?.split('.').reverse().join('-')}`,
+    dateClose: `${product ? dateCloseLoan?.split('.').reverse().join('-') : dateCloseDeposit?.split('.').reverse().join('-')}`
   }
 
   const send = async () => {
     setLoadingBtn(true)
-    sendApplication(clientData, productData).then(() => {
+    sendApplication(clientData, productData).then((data) => {
+      form.resetFields();
+      setDateOpenLoan(null)
+      setDateCloseLoan(null)
+      setPeriodLoan(null)
+      setAmountLoan(null)
+      setDateOpenDeposit(null)
+      setDateCloseDeposit(null)
+      setPeriodDeposit(null)
+      setAmountDeposit(null)
+      setRateDeposit(null)
       setLoadingBtn(false)
+      setMessageAPI(['success', data.data])
+      setTimeout(() => {
+        setMessageAPI([])
+      }, 2500);
     }).catch((e) => {
       console.log(e);
       setLoadingBtn(false)
+      setMessageAPI(['error', 'Ошибка отправки'])
+      setTimeout(() => {
+        setMessageAPI([])
+      }, 2500);
     })
   }
 
@@ -186,6 +211,9 @@ function Home() {
                 setCity={setCity}
                 setStreet={setStreet}
                 setHouse={setHouse}
+                innClear={innClear}
+                abbreviation={abbreviation}
+                setAbbreviation={setAbbreviation}
               />
             : 
               <FormIndividuals
@@ -278,6 +306,7 @@ function Home() {
           )}
         </Form.Item>
       </Form>
+      <MessageAPI messageAPI={messageAPI}/>
     </section>
   );
 }

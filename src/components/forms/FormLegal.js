@@ -7,12 +7,12 @@ const FormIndividuals = (props) => {
   const [ogrnError, setOgrnError] = useState(false)
   const [orgInnError, setOrgInnError] = useState(false)
   const [kppError, setKppError] = useState(false)
-  const [abbreviation, setAbbreviation] = useState("")
   const [innSelect, setInnSelect] = useState()
 
   const handleChange = (value) => {
-    setAbbreviation(value)
+    props.setAbbreviation(value)
     setInnSelect('success')
+    props.innClear()
   };
 
   return (
@@ -192,7 +192,7 @@ const FormIndividuals = (props) => {
           rules={[
             {
               validator: (_, value) => {
-                if(!(value.length < 19 || value === "")) {
+                if(props.abbreviation === 'ip' ? !(value.length < 23 || value === "") : !(value.length < 19 || value === "")) {
                   setOrgInnError(false)
                   return Promise.resolve()
                 } else {
@@ -203,17 +203,17 @@ const FormIndividuals = (props) => {
             }
           ]}
           initialValue={""}
-          onClick={() => {abbreviation !== "" ? '' : setInnSelect('error')}}
+          onClick={() => {props.abbreviation !== "" ? '' : setInnSelect('error')}}
         >
           <InputMask 
             autoComplete="off"
             type="tel"
-            mask={abbreviation === 'ip' ? '9 9 9 9 9 9 9 9 9 9 9 9' : '9 9 9 9 9 9 9 9 9 9'}
+            mask={props.abbreviation === 'ip' ? '9 9 9 9 9 9 9 9 9 9 9 9' : '9 9 9 9 9 9 9 9 9 9'}
             maskChar={null}
             className={`ant-input${orgInnError ? ' ant-input-status-error' : ''}`}
-            placeholder={abbreviation === "" ? "" : `${abbreviation === 'ip' ? 'X X X X X X X X X X X X' : 'X X X X X X X X X X'}`}
+            placeholder={props.abbreviation === "" ? "" : `${props.abbreviation === 'ip' ? 'X X X X X X X X X X X X' : 'X X X X X X X X X X'}`}
             onChange={e => props.setInnOrg(e.target.value.replace(/ /g,''))}
-            disabled={abbreviation === ""}
+            disabled={props.abbreviation === ""}
           />
         </Form.Item>
 

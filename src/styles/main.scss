@@ -9,7 +9,7 @@ html {
 body {
   font-family: 'Commissioner' !important;
   font-size: 16px;
-  width: 1080px;
+  width: 1080px !important;
   line-height: 16px !important;
   height: auto !important;
   margin: auto;
@@ -34,3 +34,4 @@ input::-webkit-inner-spin-button {
 @import './blocks/commom/form-individuals.scss';
 @import './blocks/commom/form-legal.scss';
 @import './blocks/commom/form-product.scss';
+@import './blocks/commom/message-api.scss';
