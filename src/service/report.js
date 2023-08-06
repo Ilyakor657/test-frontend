@@ -26,11 +26,11 @@ function report(clientCheck, client, product, period) {
   } else {
     clientString = 
       `<client>
-        <surnameIndividuals>${client.surnameIndividuals}</surnameIndividuals>
-        <nameIndividuals>${client.nameIndividuals}</nameIndividuals>
-        <patronymicIndividuals>${client.patronymicIndividuals}</patronymicIndividuals>
+        <surnameIndividual>${client.surnameIndividual}</surnameIndividual>
+        <nameIndividual>${client.nameIndividual}</nameIndividual>
+        <patronymicIndividual>${client.patronymicIndividual}</patronymicIndividual>
         <dateBirth>${client.dateBirth.split('-').reverse().join('.')}</dateBirth>
-        <innIndividuals>${client.innIndividuals}</innIndividuals>
+        <innIndividual>${client.innIndividual}</innIndividual>
         <passport>
           <serial>${client.passport.serial}</serial>
           <number>${client.passport.number}</number>

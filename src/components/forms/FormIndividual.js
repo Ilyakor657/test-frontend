@@ -5,7 +5,7 @@ import { dateString } from '../../service/dateService';
 import 'dayjs/locale/ru';
 import locale from 'antd/es/date-picker/locale/ru_RU';
 
-const FormIndividuals = (props) => {
+const FormIndividual = (props) => {
   const [innError, setInnError] = useState(false)
   const [serialError, setSerialError] = useState(false)
   const [numberError, setNumberError] = useState(false)
@@ -15,7 +15,7 @@ const FormIndividuals = (props) => {
       <div className='full-name'>
         <Form.Item
           label="Фамилия"
-          name="surnameIndividuals"
+          name="surnameIndividual"
           rules={[
             {
               required: true,
@@ -32,13 +32,13 @@ const FormIndividuals = (props) => {
         >
           <Input 
             autoComplete="off" 
-            onChange={e => props.setSurnameIndividuals(e.target.value)}
+            onChange={e => props.setSurnameIndividual(e.target.value)}
           />
         </Form.Item>
 
         <Form.Item
           label="Имя"
-          name="nameIndividuals"
+          name="nameIndividual"
           rules={[
             {
               required: true,
@@ -55,13 +55,13 @@ const FormIndividuals = (props) => {
         >
           <Input 
             autoComplete="off" 
-            onChange={e => props.setNameIndividuals(e.target.value)}
+            onChange={e => props.setNameIndividual(e.target.value)}
           />
         </Form.Item>
 
         <Form.Item
           label="Отчество"
-          name="patronymicIndividuals"
+          name="patronymicIndividual"
           rules={[
             {
               required: true,
@@ -78,7 +78,7 @@ const FormIndividuals = (props) => {
         >
           <Input 
             autoComplete="off" 
-            onChange={e => props.setPatronymicIndividuals(e.target.value)}
+            onChange={e => props.setPatronymicIndividual(e.target.value)}
           />
         </Form.Item>
       </div>
@@ -103,7 +103,7 @@ const FormIndividuals = (props) => {
 
       <Form.Item
         label="ИНН"
-        name="innIndividuals"
+        name="innIndividual"
         rules={[
           {
             validator: (_, value) => {
@@ -126,7 +126,7 @@ const FormIndividuals = (props) => {
           maskChar={null}
           className={`ant-input${innError ? ' ant-input-status-error' : ''}`}
           placeholder='X X X X X X X X X X X X'
-          onChange={e => props.setInnIndividuals(e.target.value.replace(/ /g,''))}
+          onChange={e => props.setInnIndividual(e.target.value.replace(/ /g,''))}
         />
       </Form.Item>
 
@@ -213,4 +213,4 @@ const FormIndividuals = (props) => {
   );
 };
 
-export default FormIndividuals;
+export default FormIndividual;

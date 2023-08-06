@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button } from 'antd';
 import HomeSwitch from '../components/home/HomeSwitch'
-import FormIndividuals from '../components/forms/FormIndividuals'
+import FormIndividual from '../components/forms/FormIndividual'
 import FormLegal from '../components/forms/FormLegal'
 import FormLoan from '../components/forms/FormLoan'
 import FormDeposit from '../components/forms/FormDeposit'
@@ -27,11 +27,11 @@ function Home() {
     forceUpdate({});
   }, []);
 
-  const [surnameIndividuals, setSurnameIndividuals] = useState()
-  const [nameIndividuals, setNameIndividuals] = useState()
-  const [patronymicIndividuals, setPatronymicIndividuals] = useState()
+  const [surnameIndividual, setSurnameIndividual] = useState()
+  const [nameIndividual, setNameIndividual] = useState()
+  const [patronymicIndividual, setPatronymicIndividual] = useState()
   const [dateBirth, setDateBirth] = useState()
-  const [innIndividuals, setInnIndividuals] = useState()
+  const [innIndividual, setInnIndividual] = useState()
   const [serial, setSerial] = useState()
   const [number, setNumber] = useState()
   const [dateIssue, setDateIssue] = useState()
@@ -109,7 +109,7 @@ function Home() {
   let clientData
   if (client) {
     clientData = {
-      type: 'legal',
+      subject: 'legal',
       chief: {
         surnameLegal,
         nameLegal,
@@ -131,12 +131,12 @@ function Home() {
     }
   } else {
     clientData = {
-      type: 'individual',
-      surnameIndividuals,
-      nameIndividuals,
-      patronymicIndividuals,
+      subject: 'individual',
+      surnameIndividual,
+      nameIndividual,
+      patronymicIndividual,
       dateBirth: dateBirth?.split('.').reverse().join('-'),
-      innIndividuals,
+      innIndividual,
       passport: {
         serial,
         number,
@@ -154,7 +154,7 @@ function Home() {
 
   const send = async () => {
     setLoadingBtn(true)
-    sendApplication(clientData, productData).then((data) => {
+    sendApplication(clientData, productData).then(() => {
       form.resetFields();
       setDateOpenLoan(null)
       setDateCloseLoan(null)
@@ -166,7 +166,7 @@ function Home() {
       setAmountDeposit(null)
       setRateDeposit(null)
       setLoadingBtn(false)
-      setMessageAPI(['success', data.data])
+      setMessageAPI(['success', 'Заявка успешно отправлена'])
       setTimeout(() => {
         setMessageAPI([])
       }, 2500);
@@ -216,12 +216,12 @@ function Home() {
                 setAbbreviation={setAbbreviation}
               />
             : 
-              <FormIndividuals
-                setSurnameIndividuals={setSurnameIndividuals} 
-                setNameIndividuals={setNameIndividuals}
-                setPatronymicIndividuals={setPatronymicIndividuals}
+              <FormIndividual
+                setSurnameIndividual={setSurnameIndividual} 
+                setNameIndividual={setNameIndividual}
+                setPatronymicIndividual={setPatronymicIndividual}
                 setDateBirth={setDateBirth}
-                setInnIndividuals={setInnIndividuals}
+                setInnIndividual={setInnIndividual}
                 setSerial={setSerial}
                 setNumber={setNumber}
                 setDateIssue={setDateIssue}

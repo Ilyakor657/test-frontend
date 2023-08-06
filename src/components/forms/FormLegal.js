@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Input, Select } from 'antd';
 import InputMask from 'react-input-mask';
 
-const FormIndividuals = (props) => {
+const FormLegal = (props) => {
   const [innError, setInnError] = useState(false)
   const [ogrnError, setOgrnError] = useState(false)
   const [orgInnError, setOrgInnError] = useState(false)
@@ -319,4 +319,4 @@ const FormIndividuals = (props) => {
   );
 };
 
-export default FormIndividuals;
+export default FormLegal;

@@ -33,12 +33,12 @@
           <xsl:for-each select="client">
             <span style="display: inline-block; margin-bottom: 10px;">
               ФИО:&#160;
-              <xsl:value-of select="surnameIndividuals"/>&#160;
-              <xsl:value-of select="nameIndividuals"/>&#160;
-              <xsl:value-of select="patronymicIndividuals"/>
+              <xsl:value-of select="surnameIndividual"/>&#160;
+              <xsl:value-of select="nameIndividual"/>&#160;
+              <xsl:value-of select="patronymicIndividual"/>
             </span><br></br>
             <span style="display: inline-block; margin-bottom: 10px;">Дата рождения:&#160;<xsl:value-of select="dateBirth"/></span><br></br> 
-            <span style="display: inline-block; margin-bottom: 10px;">ИНН:&#160;<xsl:value-of select="innIndividuals"/></span><br></br>
+            <span style="display: inline-block; margin-bottom: 10px;">ИНН:&#160;<xsl:value-of select="innIndividual"/></span><br></br>
             <xsl:for-each select="passport">
               <span style="display: inline-block; margin-bottom: 10px;">Cерия:&#160;<xsl:value-of select="serial"/></span><br></br>
               <span style="display: inline-block; margin-bottom: 10px;">Номер:&#160;<xsl:value-of select="number"/></span><br></br>
