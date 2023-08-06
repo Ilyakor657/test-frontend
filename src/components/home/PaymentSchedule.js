@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Table } from 'antd';
-import monthlyPayment from '../../service/monthlyPayment'
+import { paymentSchedule } from '../../http/paymentScheduleAPI';
 
 const PaymentSchedule = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,7 +34,9 @@ const PaymentSchedule = (props) => {
   ];
 
   const showModal = () => {
-    setDataSource(monthlyPayment(props.amountLoan, props.periodLoan, props.dateOpenLoan))
+    paymentSchedule(props.amountLoan, props.periodLoan, props.dateOpenLoan).then((data) => {
+      setDataSource(data.data)
+    })
     setIsModalOpen(true);
   };
   
