@@ -10,7 +10,7 @@ import { dateClose } from "../service/dateService";
 import PaymentSchedule from "../components/home/PaymentSchedule";
 import capitalization from "../service/capitalization";
 import report from "../service/report";
-import { sendApplication } from "../http/API"
+import { sendApplication } from "../http/applicationAPI"
 import MessageAPI from "../components/MessageAPI"
 
 function Home() {
