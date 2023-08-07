@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button } from 'antd';
 import HomeSwitch from '../components/home/HomeSwitch'
-import FormIndividuals from '../components/forms/FormIndividuals'
+import FormIndividual from '../components/forms/FormIndividual'
 import FormLegal from '../components/forms/FormLegal'
 import FormLoan from '../components/forms/FormLoan'
 import FormDeposit from '../components/forms/FormDeposit'
@@ -9,8 +9,8 @@ import dayjs from 'dayjs';
 import { dateClose } from "../service/dateService";
 import PaymentSchedule from "../components/home/PaymentSchedule";
 import capitalization from "../service/capitalization";
-import report from "../service/report";
-import { sendApplication } from "../http/API"
+import { paymentSchedule } from "../http/reportAPI";
+import { sendApplication } from "../http/applicationAPI"
 import MessageAPI from "../components/MessageAPI"
 
 function Home() {
@@ -18,7 +18,6 @@ function Home() {
   const [product, setProduct] = useState(true)
   const [loadingBtn, setLoadingBtn] = useState(false)
   const [periodCapitalization, setPeriodCapitalization] = useState("0")
-  const [abbreviation, setAbbreviation] = useState("")
   const [messageAPI, setMessageAPI] = useState([])
   const [form] = Form.useForm();
   const [, forceUpdate] = useState({});
@@ -27,11 +26,11 @@ function Home() {
     forceUpdate({});
   }, []);
 
-  const [surnameIndividuals, setSurnameIndividuals] = useState()
-  const [nameIndividuals, setNameIndividuals] = useState()
-  const [patronymicIndividuals, setPatronymicIndividuals] = useState()
+  const [surnameIndividual, setSurnameIndividual] = useState()
+  const [nameIndividual, setNameIndividual] = useState()
+  const [patronymicIndividual, setPatronymicIndividual] = useState()
   const [dateBirth, setDateBirth] = useState()
-  const [innIndividuals, setInnIndividuals] = useState()
+  const [innIndividual, setInnIndividual] = useState()
   const [serial, setSerial] = useState()
   const [number, setNumber] = useState()
   const [dateIssue, setDateIssue] = useState()
@@ -109,7 +108,7 @@ function Home() {
   let clientData
   if (client) {
     clientData = {
-      type: 'legal',
+      subject: 'legal',
       chief: {
         surnameLegal,
         nameLegal,
@@ -131,12 +130,12 @@ function Home() {
     }
   } else {
     clientData = {
-      type: 'individual',
-      surnameIndividuals,
-      nameIndividuals,
-      patronymicIndividuals,
+      subject: 'individual',
+      surnameIndividual,
+      nameIndividual,
+      patronymicIndividual,
       dateBirth: dateBirth?.split('.').reverse().join('-'),
-      innIndividuals,
+      innIndividual,
       passport: {
         serial,
         number,
@@ -154,7 +153,7 @@ function Home() {
 
   const send = async () => {
     setLoadingBtn(true)
-    sendApplication(clientData, productData).then((data) => {
+    sendApplication(clientData, productData).then(() => {
       form.resetFields();
       setDateOpenLoan(null)
       setDateCloseLoan(null)
@@ -166,7 +165,7 @@ function Home() {
       setAmountDeposit(null)
       setRateDeposit(null)
       setLoadingBtn(false)
-      setMessageAPI(['success', data.data])
+      setMessageAPI(['success', 'Заявка успешно отправлена'])
       setTimeout(() => {
         setMessageAPI([])
       }, 2500);
@@ -212,16 +211,14 @@ function Home() {
                 setStreet={setStreet}
                 setHouse={setHouse}
                 innClear={innClear}
-                abbreviation={abbreviation}
-                setAbbreviation={setAbbreviation}
               />
             : 
-              <FormIndividuals
-                setSurnameIndividuals={setSurnameIndividuals} 
-                setNameIndividuals={setNameIndividuals}
-                setPatronymicIndividuals={setPatronymicIndividuals}
+              <FormIndividual
+                setSurnameIndividual={setSurnameIndividual} 
+                setNameIndividual={setNameIndividual}
+                setPatronymicIndividual={setPatronymicIndividual}
                 setDateBirth={setDateBirth}
-                setInnIndividuals={setInnIndividuals}
+                setInnIndividual={setInnIndividual}
                 setSerial={setSerial}
                 setNumber={setNumber}
                 setDateIssue={setDateIssue}
@@ -254,7 +251,19 @@ function Home() {
                     <Button
                       type="button"
                       className='btn'
-                      onClick={() => report(client, clientData, productData, periodLoan)}
+                      onClick={() => paymentSchedule(clientData, amountLoan, periodLoan, dateOpenLoan).then((data) => {
+                        var file = new Blob([data.data], {
+                          type: 'text/html'
+                        })
+                        let url = URL.createObjectURL(file);
+                        var link = document.createElement('a');
+                        link.href = url
+                        link.download = 'report.html'
+                        link.style = "display: none"
+                        link.click()
+                        link.remove()
+                        URL.revokeObjectURL(url)
+                      })}
                       disabled={
                         Object.values(form.getFieldsValue()).includes(undefined) ||
                         Object.values(form.getFieldsValue()).includes(null) ||
