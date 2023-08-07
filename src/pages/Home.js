@@ -9,7 +9,7 @@ import dayjs from 'dayjs';
 import { dateClose } from "../service/dateService";
 import PaymentSchedule from "../components/home/PaymentSchedule";
 import capitalization from "../service/capitalization";
-import report from "../service/report";
+import { paymentSchedule } from "../http/reportAPI";
 import { sendApplication } from "../http/applicationAPI"
 import MessageAPI from "../components/MessageAPI"
 
@@ -18,7 +18,6 @@ function Home() {
   const [product, setProduct] = useState(true)
   const [loadingBtn, setLoadingBtn] = useState(false)
   const [periodCapitalization, setPeriodCapitalization] = useState("0")
-  const [abbreviation, setAbbreviation] = useState("")
   const [messageAPI, setMessageAPI] = useState([])
   const [form] = Form.useForm();
   const [, forceUpdate] = useState({});
@@ -212,8 +211,6 @@ function Home() {
                 setStreet={setStreet}
                 setHouse={setHouse}
                 innClear={innClear}
-                abbreviation={abbreviation}
-                setAbbreviation={setAbbreviation}
               />
             : 
               <FormIndividual
@@ -254,7 +251,19 @@ function Home() {
                     <Button
                       type="button"
                       className='btn'
-                      onClick={() => report(client, clientData, productData, periodLoan)}
+                      onClick={() => paymentSchedule(clientData, amountLoan, periodLoan, dateOpenLoan).then((data) => {
+                        var file = new Blob([data.data], {
+                          type: 'text/html'
+                        })
+                        let url = URL.createObjectURL(file);
+                        var link = document.createElement('a');
+                        link.href = url
+                        link.download = 'report.html'
+                        link.style = "display: none"
+                        link.click()
+                        link.remove()
+                        URL.revokeObjectURL(url)
+                      })}
                       disabled={
                         Object.values(form.getFieldsValue()).includes(undefined) ||
                         Object.values(form.getFieldsValue()).includes(null) ||
