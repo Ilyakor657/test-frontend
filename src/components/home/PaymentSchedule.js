@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Table } from 'antd';
-import { paymentSchedule } from '../../http/paymentScheduleAPI';
+import { paymentSchedule } from '../../http/scheduleAPI';
 
 const PaymentSchedule = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
