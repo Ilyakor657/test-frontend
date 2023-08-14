@@ -36,6 +36,9 @@ const PaymentSchedule = (props) => {
   const showModal = () => {
     paymentSchedule(props.amountLoan, props.periodLoan, props.dateOpenLoan).then((data) => {
       setDataSource(data.data)
+    }).catch(() => {
+      setDataSource([])
+      setIsModalOpen(false);
     })
     setIsModalOpen(true);
   };
